@@ -47,7 +47,7 @@ function ViewAssignments() {
   return (
     <div>
         <Header/>
-          <section className="py-10 text-white bg-slate-950 md:h-screen ">
+          <section className="py-10 text-white bg-slate-950 md:h-full ">
             <div className='flex justify-end mx-4'>
                 <div class="mb-4 md:mb-0 w-full md:w-44 mr-2">
                       <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">

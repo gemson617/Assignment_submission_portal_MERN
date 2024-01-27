@@ -23,14 +23,14 @@ export default function Main() {
                 <Route path='/' element={<Login/>}/>*/}
                 <Route path='/viewAssignmentsAdmin' element={<ViewAssignmentsAdmin/>}/> 
                 <Route path='/ViewAssignmentsAdmin/editAssignment/:id' element={<EditAssignment/>}/>
-                {/*  <Route path='/studRegister' element={<StudRegister/>}/>*/}
+                 {/* <Route path='/studRegister' element={<StudRegister/>}/> */}
 
         </Routes> 
       {/* <StudHome />
       <Login />*/}
       <ViewAssignments />
-      {/* <AddAssignment />  */}
-      {/* <ViewAssignmentsAdmin /> */}
+      <AddAssignment /> 
+      <ViewAssignmentsAdmin />
       {/* <StudRegister /> */}
     </div>
   );

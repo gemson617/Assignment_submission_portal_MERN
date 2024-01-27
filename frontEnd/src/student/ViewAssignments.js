@@ -73,8 +73,38 @@ function ViewAssignments() {
 
     const [pdfData, setPdfData] = useState(null);
     const [assignmentId, setAssignmentId] = useState(null);
-console.log(pdfData)
-console.log(assignmentId)
+
+    const [assignments, setAssignments] = useState([]);
+// console.log(assignments)
+
+const getAssignments = async () => {
+
+  const id = '65ad2cda37e1038743c9b06b';
+           
+  try {
+    const response = await axios.get(`http://localhost:5000/student/getAssignments/${id}`);
+    const data =  response.data.data
+        // setAssignments();
+        setAssignments(data);
+        console.log(assignments)
+if(response.data.success){
+  alert('Assignment Retrieved Succesfully!')
+  window.location.reload()
+}
+  } catch (error) {
+    console.error('Error uploading file:', error);
+  }
+};
+
+
+  useEffect(() => {
+      getAssignments();
+  }, []);
+
+
+
+
+
 
     // useEffect(() => {
     //   const fetchPdfData = async () => {
@@ -122,12 +152,8 @@ console.log(assignmentId)
   return (
     <div>
        
-        <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        
         <Box sx={style}>
 
 
@@ -194,9 +220,10 @@ console.log(assignmentId)
       </Modal>
 
       <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={getAssignments}>Get Assignments</Button>
 
       <a
-          className="block w-full px-12 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+          className="block w-full px-12 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
           href="#" onClick={handleId}
         >
            View Assignments
@@ -216,216 +243,76 @@ console.log(assignmentId)
 
 
 
-
-
-
-
-
-
-
-
-{/* //start of hover card */}
-
-
-
-
-{/* //end of hover card */}
-
-
-
 {/* main div for assignment cards */}
 <div className=''>
 
-<h1 className="mx-20 my-5 text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
-        Assignments For You.
-</h1>
-
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mx-10 md:mx-20 my-20">
+          <h1 className="mx-20 my-5 text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
+                  Assignments For You.
+          </h1>
 
 
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mx-10 md:mx-20 my-20">
 
-<article
-  class="hover:animate-background  rounded-xl bottom-4 bg-indigo-400 hover:bg-indigo-500 p-0.5 m-1 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
-title="click to submit" onClick={handleOpen}>
-  <div class="rounded-[10px] p-4 sm:p-6">
-    <time datetime="2022-10-10" class="block text-xs text-gray-900"><span className='font-semibold text-gray-800'>Posted On</span> - 10th Oct 2022 </time>
+                {assignments ?   (
 
-    <h2 class="mt-0.5  text-2xl text-gray-900">
-        React Assignment
-      </h2>
-      
-    <a href="#">
-      <h3 class="mt-0.5 text-lg font-medium text-gray-900">
-        How to center an element using JavaScript and jQuery
-      </h3>
-    </a>
+                    assignments.map((assignment, index) => {
+                      
+                      const originalDate = new Date(assignment.dueDate);
 
-    <div class="mt-4 flex flex-wrap justify-between">
-        <span class="whitespace-nowrap rounded-full bg-purple-200 px-2.5 py-0.5 text-xs text-purple-600">
-            Snippett
-        </span>
+                      const formattedDueDate = originalDate.toLocaleDateString('en-GB').replace(/\//g, '-'); // 'en-GB' represents the format 'dd-mm-yyyy'
+                      const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+                      // alert(today)
+                     
+                     
+                      return(
+                            <article key={index} class="p-0.5 m-1  overflow-hidden transition duration-300 transform bg-indigo-400 cursor-pointer group rounded-xl hover:bg-indigo-500 hover:scale-105 hover:shadow-lg"
+                              title="click to submit" onClick={handleOpen}>
+                                  <div class="rounded-[10px] p-4 sm:p-6">
 
-        <span class="whitespace-nowrap rounded-full bg-purple-200 px-2.5 py-0.5 text-xs text-purple-600">
-            JavaScript
-        </span>
-    </div>
+                                            {/* due date */}
+                                            <h2 class="mt-1 text-2xl uppercase text-slate-900">
+                                              {assignment.name}
+                                            </h2>
+                                            
+                                            {/* description */}
+                                            <a href="#">
+                                              <h3 class="mt-2 text-lg font-medium text-gray-900">
+                                                    {assignment.description}
+                                              </h3>
+                                            </a>
+                                            
+                                            {/* DueDate */}
 
-  </div>
-</article>
+                                            <div class="mt-6 flex flex-wrap justify-between">
+                                                  <span class="whitespace-nowrap rounded-full bg-purple-200 px-2.5 py-0.5 text-xs text-purple-600">
+                                                    Snippett
+                                                </span>
 
-<article class="hover:animate-background rounded-xl bg-indigo-400 hover:bg-indigo-500 p-0.5 m-1 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]">
-  <div class="rounded-[10px]  p-4  sm:p-6" onClick={handleOpen}>
-    <time datetime="2022-10-10" class="block text-xs text-gray-900"> 10th Oct 2022 </time>
-    <a href="#">
-      <h3 class="mt-0.5 text-lg font-medium text-gray-900">
-        How to center an element using JavaScript and jQuery
-      </h3>
-    </a>
-    <div class=" flex flex-wrap gap-1 items-end mt-10">
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        Snippet
-      </span>
+                                                <span class={`whitespace-nowrap rounded-full  px-2.5 py-0.5 text-xs  ${formattedDueDate === today ? 'bg-red-200 text-red-600' : 'bg-purple-200 text-purple-600'}`}>
+                                                    Due Date - {formattedDueDate === today ? 'Today' : formattedDueDate }
+                                                  </span>
+                                            </div>
+                            
+                                  </div>
+                            </article> 
+                            
+                            )
+                    })
+                      
 
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        JavaScript
-      </span>
-    </div>
-  </div>
-</article>
+                      )  :  ' ' }
 
 
 
 
 
-<article onClick={handleOpen}
-  class="hover:animate-background rounded-xl bg-indigo-400 hover:bg-indigo-500 p-0.5 m-1 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
->
-  <div class="rounded-[10px] p-4 sm:p-6">
-    <time datetime="2022-10-10" class="block text-xs text-gray-900"> 10th Oct 2022 </time>
 
-    <a href="#">
-      <h3 class="mt-0.5 text-lg font-medium text-gray-900">
-        How to center an element using JavaScript and jQuery
-      </h3>
-    </a>
 
-    <div class="mt-4 flex flex-wrap gap-1">
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        Snippet
-      </span>
 
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        JavaScript
-      </span>
-    </div>
-  </div>
-</article>
 
-<article
-  class="hover:animate-background rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 m-1 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
->
-  <div class="rounded-[10px] bg-white p-4  sm:p-6">
-    <time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
-
-    <a href="#">
-      <h3 class="mt-0.5 text-lg font-medium text-gray-900">
-        How to center an element using JavaScript and jQuery
-      </h3>
-    </a>
-
-    <div class="mt-4 flex flex-wrap gap-1">
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        Snippet
-      </span>
-
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        JavaScript
-      </span>
-    </div>
-
-  </div>
-</article>
-
-<article
-  class="hover:animate-background rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 m-1 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
->
-  <div class="rounded-[10px] bg-white p-4 !pt-20 sm:p-6">
-    <time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
-
-    <a href="#">
-      <h3 class="mt-0.5 text-lg font-medium text-gray-900">
-        How to center an element using JavaScript and jQuery
-      </h3>
-    </a>
-
-    
-
-    <div class="mt-4 flex flex-wrap gap-1">
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        Snippet
-      </span>
-
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        JavaScript
-      </span>
-    </div>
-  </div>
-</article>
-
-<article
-  class="hover:animate-background rounded-xl bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 p-0.5 m-1 shadow-xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
->
-  <div class="rounded-[10px] bg-white p-4 !pt-20 sm:p-6">
-    <time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
-
-    <a href="#">
-      <h3 class="mt-0.5 text-lg font-medium text-gray-900">
-        How to center an element using JavaScript and jQuery
-      </h3>
-    </a>
-
-    <div class="mt-4 flex flex-wrap gap-1">
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        Snippet
-      </span>
-
-      <span
-        class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600"
-      >
-        JavaScript
-      </span>
-    </div>
-  </div>
-</article>
+          </div>
 
 </div>
-
-</div>
-
-
-
-
-
-
-
 
 
     </div>

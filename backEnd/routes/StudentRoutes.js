@@ -3,6 +3,7 @@ const multer = require('multer');
 const router = express.Router()
 const AssignmentModel = require('../models/AssignmentModels')
 const CompletedAssignmentModel = require('../models/CompletedAssignmentsModel')
+const studentModel = require('../models/studentModel')
 
 
 // Set up multer storage
@@ -30,11 +31,15 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
   // console.log(req.file);
   // res.send('done')
             const fileData = req.file.filename;
+            const assignmentId = '65ad2cda37e1038743c9b06b';
+            const studentId = '65ad2cda37e1038743c9b06b';
             const comments = req.body.comments;
 
             const newAssignment = new CompletedAssignmentModel({
-              attachment: fileData, // Assuming you have a field named fileData in your schema
-              comments: comments,
+              attachment     :   fileData, // Assuming you have a field named fileData in your schema
+              comments       :   comments,
+              studentId      :   studentId,
+              assignmentId   :   assignmentId,
             });
 
             // console.log(newAssignment)
@@ -79,6 +84,42 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
     } catch (error) {
       res.status(500).json({"msg":'something went wrong on post...'})
     }
+  
+    });
+
+
+    router.get('/getAssignments/:id', async(req, res) => {
+
+      const studentId = req.params.id;
+
+      const studentDetails = await studentModel.findById(studentId);
+
+
+     const assignments = await AssignmentModel.find( { classes: studentDetails.classes } );
+     const completedAssignments = await CompletedAssignmentModel.find({ studentId: studentId });
+
+
+     const filteredAssignments = assignments.filter(assignment => {
+       // Assuming assignment._id and completedAssignment.assignmentId are both ObjectId
+       return !completedAssignments.some(completedAssignment =>
+         completedAssignment.assignmentId === String(assignment._id)
+       );
+     });
+
+     console.log(filteredAssignments)
+
+
+      try {
+
+          // Default query when no specific conditions are met
+          assignment = await AssignmentModel.find({});
+        
+       
+        res.send({data:filteredAssignments});
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+        res.status(500).send('can\'t get assignments..sorry Admin!');
+      }
   
     });
 
