@@ -27,11 +27,8 @@ const upload = multer({ storage: storage });
 //get all Friendss
 router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
-
-  // console.log(req.file);
-  // res.send('done')
             const fileData = req.file.filename;
-            const assignmentId = '65ad2cda37e1038743c9b06b';
+            const assignmentId =  req.body.assignmentId;
             const studentId = '65ad2cda37e1038743c9b06b';
             const comments = req.body.comments;
 
@@ -46,7 +43,9 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
             
             try {
               const insertedAssignment = await newAssignment.save();
-              res.json({ message: 'File uploaded and assignment submitted successfully!', assignment: insertedAssignment });
+              // res.status(201).json({success:true});
+
+              res.json({ message: 'File uploaded and assignment submitted successfully!', success:true });
             } catch (error) {
               console.error('Error inserting assignment:', error);
               res.status(500).json({ message: 'Internal Server Error' });
@@ -122,5 +121,41 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
       }
   
     });
+
+
+
+    router.get('/getSubmitted/:id', async(req, res) => {
+
+      const studentId = req.params.id;
+
+      // const studentDetails = await studentModel.findById(studentId);
+
+
+    //  const assignments = await AssignmentModel.find( { classes: studentDetails.classes } );
+     const completedAssignments = await CompletedAssignmentModel.find({ studentId: studentId });
+
+
+
+     res.send({data:completedAssignments});
+
+    //  console.log(completedAssignments)
+
+
+      try {
+
+          // Default query when no specific conditions are met
+          assignment = await AssignmentModel.find({});
+        
+       
+        // res.send({data:filteredAssignments});
+      } catch (error) {
+        console.error('Error fetching PDF:', error);
+        res.status(500).send('can\'t get assignments..sorry Admin!');
+      }
+  
+    });
+
+
+
 
   module.exports = router

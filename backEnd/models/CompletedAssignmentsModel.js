@@ -8,7 +8,9 @@ const completedAssignmentSchema = new mongoose.Schema({
     attachment      :   String,
     comments        :   String,
     submittedOn     :   Date
-})
+}, {
+    timestamps  : true,
+  })
 
 const CompletedAssignmentModel = mongoose.model('completed_assignment',completedAssignmentSchema)
 

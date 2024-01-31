@@ -39,9 +39,16 @@ function ViewAssignments() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [assignmentName, setAssignmentName] = useState('');
+    const [description, setDescription] = useState('');
 
     const [file, setFile] = useState(null);
     const [comments, setComments] = useState('');
+
+    function ucWords(str) {
+      return str.replace(/\b\w/g, match => match.toUpperCase());
+  }
+  
   
     const handleFileChange = (event) => {
       setFile(event.target.files[0]);
@@ -53,6 +60,7 @@ function ViewAssignments() {
     
     const handleUpload = async () => {
       const formData = new FormData();
+      formData.append('assignmentId', assignmentId);
       formData.append('file', file);
       formData.append('comments', comments);
   
@@ -62,14 +70,35 @@ function ViewAssignments() {
             'Content-Type': 'multipart/form-data',
           },
         });
-        console.log(response.data);
+
+        if(response.data.success){
+          alert('Submitted Successfully!');
+        }
       } catch (error) {
         console.error('Error uploading file:', error);
       }
     };
 
 
-    const handleId = () => setAssignmentId('65ab40b88a3bd34294c16aec');
+    const getSpecificAssignment = async (id) => {
+      // alert(id)
+      try {
+          const response = await axios.get(`http://localhost:5000/admin/getAssignmentsById/${id}`, );
+          const assignment =  response.data.data
+
+          setAssignmentId(id)
+          setAssignmentName(assignment.name)
+          setDescription(assignment.description)
+          // setSection(assignment.section)
+          // setDueDate(assignment.dueDate)
+          // setNotes(assignment.notes)
+
+          setOpen(true)
+          } catch (error) {
+          console.error('Error uploading file:', error);
+          }
+  }
+
 
     const [pdfData, setPdfData] = useState(null);
     const [assignmentId, setAssignmentId] = useState(null);
@@ -100,7 +129,6 @@ if(response.data.success){
   useEffect(() => {
       getAssignments();
   }, []);
-
 
 
 
@@ -161,11 +189,8 @@ if(response.data.success){
                         <div class="mx-auto max-w-lg bg-white rounded-xl p-3">
                             <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl mt-4">Submit Assignment!</h1>
 
-                            <h1 className='mt-8 ml-4 text-2xl text-indigo-600 lg:ml-10'>Assignment Name</h1>
-                            <p class="mx-auto mt-2 max-w-md ml-4 text-gray-600 lg:ml-10">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati sunt dolores deleniti
-                            inventore quaerat mollitia?
-                            </p>
+                            <h1 className='mt-8 ml-4 text-2xl text-indigo-600 lg:ml-10'>{ucWords(assignmentName)}</h1>
+                            <p class="mx-auto mt-2 max-w-md ml-4 text-gray-600 lg:ml-10">{ucWords(description)}</p>
 
                             <form action="" class="mb-0 space-y-4 rounded-lg  shadow-lg p-6 lg:px-8 px-2">
 
@@ -179,7 +204,7 @@ if(response.data.success){
                                     placeholder="Enter email"
                                 /> */}
 
-                          <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} className='w-full bg-indigo-500'>
+                          <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} className='w-full'>
                                 Upload Assignment
                                 <VisuallyHiddenInput type="file" name='file'  onChange={handleFileChange}/>
                               </Button>
@@ -193,7 +218,7 @@ if(response.data.success){
                                 <div class="relative">
                                 <input
                                     type="text"
-                                    class="w-full rounded-lg border-gray-200 p-3 pe-12 text-sm shadow-sm"
+                                    class="w-full rounded-lg border-blue-400 hover:border-blue-500 p-3 pe-12 text-sm shadow-sm text-slate-800"
                                     placeholder="Enter Comments" onChange={handleCommentsChange}
                                 />
 
@@ -224,8 +249,7 @@ if(response.data.success){
 
       <a
           className="block w-full px-12 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-          href="#" onClick={handleId}
-        >
+          href="#" >
            View Assignments
         </a>
         <Button onClick={handleDownload}>Download PDF</Button>
@@ -260,13 +284,12 @@ if(response.data.success){
                       const originalDate = new Date(assignment.dueDate);
 
                       const formattedDueDate = originalDate.toLocaleDateString('en-GB').replace(/\//g, '-'); // 'en-GB' represents the format 'dd-mm-yyyy'
-                      const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
-                      // alert(today)
-                     
-                     
+                      const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');                     
+                     console.log(formattedDueDate)
+                      console.log(today)
                       return(
-                            <article key={index} class="p-0.5 m-1  overflow-hidden transition duration-300 transform bg-indigo-400 cursor-pointer group rounded-xl hover:bg-indigo-500 hover:scale-105 hover:shadow-lg"
-                              title="click to submit" onClick={handleOpen}>
+                              <article key={index} onClick={()=> getSpecificAssignment(assignment._id)} class="p-0.5 m-1  overflow-hidden transition duration-300 transform bg-indigo-400 cursor-pointer group rounded-xl hover:bg-indigo-500 hover:scale-105 hover:shadow-lg"
+                                title="click to submit">
                                   <div class="rounded-[10px] p-4 sm:p-6">
 
                                             {/* due date */}
@@ -284,9 +307,13 @@ if(response.data.success){
                                             {/* DueDate */}
 
                                             <div class="mt-6 flex flex-wrap justify-between">
-                                                  <span class="whitespace-nowrap rounded-full bg-purple-200 px-2.5 py-0.5 text-xs text-purple-600">
-                                                    Snippett
+                                            {/* { today > new Date(formattedDueDate) ? (
+                                              <span class="whitespace-nowrap rounded-full bg-red-500 px-2.5 py-0.5 text-xs text-white">
+                                                     Expired
                                                 </span>
+                                            ) : (formattedDueDate) } */}
+                                            <div></div>
+                                                  
 
                                                 <span class={`whitespace-nowrap rounded-full  px-2.5 py-0.5 text-xs  ${formattedDueDate === today ? 'bg-red-200 text-red-600' : 'bg-purple-200 text-purple-600'}`}>
                                                     Due Date - {formattedDueDate === today ? 'Today' : formattedDueDate }

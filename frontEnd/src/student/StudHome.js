@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect, useRef, useReducer } from "react";
 import Header from "./Header";
+import Badge from '@mui/material/Badge';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCartRounded';
+import axios from 'axios';
 
 function StudHome() {
+
+  const [assignments, setAssignments] = useState([]);
+  const getAssignments = async () => {
+
+    const id = '65ad2cda37e1038743c9b06b';
+             
+    try {
+      const response = await axios.get(`http://localhost:5000/student/getAssignments/${id}`);
+      const data =  response.data.data
+          // setAssignments();
+          setAssignments(data);
+          console.log(assignments)
+  if(response.data.success){
+    alert('Assignment Retrieved Succesfully!')
+    window.location.reload()
+  }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+  
+  
+    useEffect(() => {
+        getAssignments();
+    }, []);
+
   return (
     <div>
       <Header/>
@@ -34,12 +63,13 @@ function StudHome() {
           View Assignments
         </a> */}
 
-        <a
-          className="block w-full px-12 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-          href="/about"
-        >
-           View Assignments
+        
+           <Badge badgeContent={assignments.length} color="info">
+<a className="block w-full px-12 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+          href="/viewAssignments"> View Assignments
         </a>
+          </Badge>
+          
       </div>
     </div>
   </div>
