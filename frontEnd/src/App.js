@@ -24,7 +24,7 @@ export default function TodoComp() {
           <h1 class="text-2xl text- ml-0 text-white sm:max-2xl:text-3xl font-sans underline">
             Add Todo
           </h1>
-        <form >
+        <form>
             <div class="">
                 <input type="text" class="w-96 p-2 m-2 rounded border-l-2 border-l-slate-900 focus:border-l-4 focus:border-b-blue-900  focus:outline-none font-sans text-slate-900 font-semibold uppercase shadow-xl"  placeholder="Enter Todo" value={name} name="name" onChange={(e) => setName(e.target.value)} />
                 </div>

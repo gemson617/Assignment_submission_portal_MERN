@@ -69,6 +69,10 @@ function StudHome() {
           href="/viewAssignments"> View Assignments
         </a>
           </Badge>
+
+          <a className="block w-full px-12 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+          href="/ViewSubmitted"> Submitted Assignments
+        </a>
           
       </div>
     </div>

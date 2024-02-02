@@ -2,12 +2,19 @@ import React, {useEffect, useState} from 'react'
 import Header from "../student/Header";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import DownloadIcon from '@mui/icons-material/Download';
+
+
 
 function ViewSubmitted() {
 
   const [assignments, setAssignments] = useState([]);
+  // const [assignmentId, setAssignmentId] = useState(null);
   const [classes, setClass] = useState('all');
 	const [section, setSection] = useState('all');
+  const [pdfData, setPdfData] = useState('');
 
   const handleClass = (event) => {
     setClass(event.target.value);
@@ -17,31 +24,82 @@ function ViewSubmitted() {
     setSection(event.target.value);
     };
 
-    // const handleFilter = async () => {
-           
-    //   try {
-    //     const response = await axios.get('http://localhost:5000/admin/getAssignments', {
-    //       params: {
-    //         classes: classes,
-    //         section: section
-    //       }
-    //     });
-    //     const data =  response.data.data
-    //         setAssignments();
-    //         setAssignments(data);
-		// if(response.data.success){
-		// 	alert('Assignment Created Succesfully!')
-		// 	window.location.reload()
-		// }
-    //   } catch (error) {
-    //     console.error('Error uploading file:', error);
-    //   }
-    // };
-    
+
+      const fetchPdfData = async (assignmentId) => {
+        alert(assignmentId)
+        try {
+          const response = await axios.get(`http://localhost:5000/student/getAssignmentPDF/${assignmentId}`);
+
+          const responseData = response.data.data;
+
+          if (responseData && responseData.attachment) {
+            const data = responseData.attachment;
+            setPdfData(data);
+            // alert(pdfData)
+            // handleDownload(data);
+          } else {
+            console.error('Error fetching PDF: Response data or attachment is null');
+          }
+
+        } catch (error) {
+          console.error('Error fetching PDF:', error);
+        }
+      };
+
+      useEffect(() => {
+
+        if (pdfData !== '') {
+          alert(pdfData);
+          handleDownload(pdfData);
+        }
+
+      }, [pdfData]); 
   
-    //   useEffect(() => {
-    //       handleFilter();
-    //   }, []);
+
+         const handleViewAttachment = async (assignmentId) => {
+
+          try {
+            const response = await axios.get(`http://localhost:5000/student/getAssignmentPDF/${assignmentId}`);
+  
+            const responseData = response.data.data;
+  
+            if (responseData && responseData.attachment) {
+              const data = responseData.attachment;
+
+              const url = `http://localhost:5000/files/${data}`;
+              window.open(url, '_blank');
+
+            } else {
+              console.error('Error fetching PDF: Response data or attachment is null');
+            }
+  
+          } catch (error) {
+            console.error('Error fetching PDF:', error);
+          }
+
+
+        };
+
+
+
+        // download pdf
+        const handleDownload = async (data) => {
+          const url = `http://localhost:5000/files/${data}`;
+        
+          // Fetch the PDF data
+          const response = await fetch(url);
+          const blob = await response.blob();
+        
+          // Create a link element and trigger the download
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = pdfData; // Set the desired file name
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+
+ 
 
 
 
@@ -55,7 +113,7 @@ function ViewSubmitted() {
           const data =  response.data.data
             //   setAssignments();
               setAssignments(data);
-              console.log(assignments)
+              // console.log(assignments)
       if(response.data.success){
         alert('Assignment Retrieved Succesfully!')
         window.location.reload()
@@ -117,23 +175,23 @@ function ViewSubmitted() {
               </div>
   <div className="px-4 py-4">
    
-      <table class=" rounded-lg min-w-full border border-gray-300">
-          <thead className='bg-indigo-500 '>
+      <table class="min-w-full border border-gray-300 rounded-xl">
+          <thead className='bg-indigo-500 rounded-xl'>
             <tr>
               <th class="py-2 px-4 border-b">S.No</th>
               <th class="py-2 px-4  border-b">Assignment Name</th>
               <th class="py-2 px-4  border-b">Description</th>
-              <th class="py-2 px-4  border-b">Class</th>
               <th class="py-2 px-4  border-b">Section</th>
-              <th class="py-2 px-4  border-b">Due Date</th>
+              <th class="py-2 px-4  border-b">Attachment</th>
               <th class="py-2 px-4  border-b">Action</th>
             </tr>
           </thead>
           <tbody>
 
             {assignments.map((assignment, index) => {
+              // fetchPdfData(assignment.assignmentId)
               // Parse the original date string
-              const originalDate = new Date(assignment.dueDate);
+              const originalDate = new Date(assignment.assignmentDetails.dueDate);
 
               // Get the date in the desired format (YYYY-MM-DD)
               const formattedDueDate = originalDate.toLocaleDateString('en-GB'); // 'en-GB' represents the format 'dd-mm-yyyy'
@@ -141,11 +199,13 @@ function ViewSubmitted() {
               return (
                 <tr className='text-center hover:bg-slate-900' key={index}>
                   <td class="py-2 px-4 border-b ">{index + 1}</td>
-                  <td class="py-2 px-4 border-b">{assignment.name}</td>
-                  <td class="py-2 px-4 border-b">{assignment.description}</td>
-                  <td class="py-2 px-4 border-b">{assignment.classes}</td>
-                  <td class="py-2 px-4 border-b">{assignment.section}</td>
-                  <td class="py-2 px-4 border-b">{formattedDueDate}</td>
+                  <td class="py-2 px-4 border-b">{assignment.assignmentDetails.name}</td>
+                  <td class="py-2 px-4 border-b">{assignment.assignmentDetails.description}</td>
+                  <td class="py-2 px-4 border-b">{assignment.marks ? assignment.marks : 'Not Evaluated!'}</td>
+                  <td class="py-2 px-4 border-b">
+                        <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
+                        <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />
+                  </td>
                   <td class="py-2 px-4 border-b">
                     <Link to={`editAssignment/${assignment._id}`}>Edit</Link>
                   </td>

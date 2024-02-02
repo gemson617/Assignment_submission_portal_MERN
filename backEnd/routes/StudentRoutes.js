@@ -32,11 +32,24 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
             const studentId = '65ad2cda37e1038743c9b06b';
             const comments = req.body.comments;
 
+
+            const assignmentDetails = await AssignmentModel.findById(assignmentId).select({
+              _id: 0,       
+              classes: 0,   
+              section: 0,   
+              status: 0,   
+              updatedAt: 0,   
+              __v: 0,   
+            });
+
+            console.log(assignmentDetails)
+
             const newAssignment = new CompletedAssignmentModel({
               attachment     :   fileData, // Assuming you have a field named fileData in your schema
               comments       :   comments,
               studentId      :   studentId,
               assignmentId   :   assignmentId,
+              assignmentDetails   :   assignmentDetails,
             });
 
             // console.log(newAssignment)
@@ -58,12 +71,14 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
   router.get('/getAssignmentPDF/:id', async(req, res) => {
     const assignmentId = req.params.id;
-// res.send(assignmentId)
+
+    // res.send(assignmentId)
     try {
       const assignment = await CompletedAssignmentModel.findById(assignmentId);
      
   
-    
+      console.log('Assignment Id : ' +assignment)
+
       res.send({data:assignment});
     } catch (error) {
       console.error('Error fetching PDF:', error);
@@ -75,7 +90,7 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
   router.post('/addAssignment', async(req, res) => {
     const newAssignment = req.body;
-  console.log(newAssignment)
+  // console.log(newAssignment)
   
     try {
         const Assignment =await AssignmentModel.insertMany(newAssignment);
@@ -105,7 +120,7 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
        );
      });
 
-     console.log(filteredAssignments)
+    //  console.log(filteredAssignments)
 
 
       try {
@@ -128,29 +143,17 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
       const studentId = req.params.id;
 
-      // const studentDetails = await studentModel.findById(studentId);
-
-
-    //  const assignments = await AssignmentModel.find( { classes: studentDetails.classes } );
-     const completedAssignments = await CompletedAssignmentModel.find({ studentId: studentId });
-
-
-
-     res.send({data:completedAssignments});
-
-    //  console.log(completedAssignments)
-
-
       try {
 
-          // Default query when no specific conditions are met
-          assignment = await AssignmentModel.find({});
-        
-       
-        // res.send({data:filteredAssignments});
+            const completedAssignments = await CompletedAssignmentModel.find({ studentId: studentId });
+
+            res.send({data:completedAssignments});
+          //  console.log(completedAssignments)
       } catch (error) {
-        console.error('Error fetching PDF:', error);
-        res.status(500).send('can\'t get assignments..sorry Admin!');
+
+            console.error('Error fetching PDF:', error);
+            res.status(500).send('can\'t get assignments..sorry Admin!');
+
       }
   
     });
