@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DownloadIcon from '@mui/icons-material/Download';
-
+import SentimentVeryDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import Badge from '@mui/material/Badge';
 
 
 function ViewSubmitted() {
@@ -106,7 +107,7 @@ function ViewSubmitted() {
 
       const getSubmittedAssignments = async () => {
 // alert('hi')
-        const id = '65ad2cda37e1038743c9b06b';
+        const id = '65ad2cda37e1038743c9b06a';
                  
         try {
           const response = await axios.get(`http://localhost:5000/student/getSubmitted/${id}`);
@@ -133,10 +134,10 @@ function ViewSubmitted() {
 
 
   return (
-    <div>
+    <div className='h-full'>
         <Header/>
           <section className="py-10 text-white bg-slate-950 md:h-full ">
-            <div className='flex justify-end mx-4'>
+            {/* <div className='flex justify-end mx-4'>
                 <div class="mb-4 md:mb-0 w-full md:w-44 mr-2">
                       <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
                                           Class
@@ -166,57 +167,65 @@ function ViewSubmitted() {
                         </select>
                     </div>
                     <div>
-                    {/* <button onClick={handleFilter}
+                     <button onClick={handleFilter}
                                 class="w-full mt-9 ml-2 px-4 py-1 font-semibold text-slate-900 bg-slate-200 rounded-full hover:bg-green-500 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
                                 type="button">
                                 Filter
-                            </button> */}
+                            </button>
                     </div>
-              </div>
+              </div> */}
   <div className="px-4 py-4">
-   
-      <table class="min-w-full border border-gray-300 rounded-xl">
-          <thead className='bg-indigo-500 rounded-xl'>
-            <tr>
-              <th class="py-2 px-4 border-b">S.No</th>
-              <th class="py-2 px-4  border-b">Assignment Name</th>
-              <th class="py-2 px-4  border-b">Description</th>
-              <th class="py-2 px-4  border-b">Section</th>
-              <th class="py-2 px-4  border-b">Attachment</th>
-              <th class="py-2 px-4  border-b">Action</th>
-            </tr>
-          </thead>
-          <tbody>
 
-            {assignments.map((assignment, index) => {
-              // fetchPdfData(assignment.assignmentId)
-              // Parse the original date string
-              const originalDate = new Date(assignment.assignmentDetails.dueDate);
+    {assignments.length !== 0 ? (
+    
+        <table class="min-w-full border border-gray-300 rounded-xl">
+            <thead className='bg-indigo-500 rounded-xl'>
+              <tr>
+                <th class="py-2 px-4 border-b">S.No</th>
+                <th class="py-2 px-4  border-b">Assignment Name</th>
+                <th class="py-2 px-4  border-b">Description</th>
+                <th class="py-2 px-4  border-b">Section</th>
+                <th class="py-2 px-4  border-b">Attachment</th>
+                {/* <th class="py-2 px-4  border-b">Action</th> */}
+              </tr>
+            </thead>
+            <tbody>
 
-              // Get the date in the desired format (YYYY-MM-DD)
-              const formattedDueDate = originalDate.toLocaleDateString('en-GB'); // 'en-GB' represents the format 'dd-mm-yyyy'
-
-              return (
-                <tr className='text-center hover:bg-slate-900' key={index}>
-                  <td class="py-2 px-4 border-b ">{index + 1}</td>
-                  <td class="py-2 px-4 border-b">{assignment.assignmentDetails.name}</td>
-                  <td class="py-2 px-4 border-b">{assignment.assignmentDetails.description}</td>
-                  <td class="py-2 px-4 border-b">{assignment.marks ? assignment.marks : 'Not Evaluated!'}</td>
-                  <td class="py-2 px-4 border-b">
-                        <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
-                        <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />
-                  </td>
-                  <td class="py-2 px-4 border-b">
-                    <Link to={`editAssignment/${assignment._id}`}>Edit</Link>
-                  </td>
-                </tr>
-              );
-            })}
-
+              { assignments.map((assignment, index) => {
             
-          </tbody>
-    </table>
+                return (
+                  <tr className='text-center hover:bg-slate-900' key={index}>
+                    <td class="py-2 px-4 border-b ">{index + 1}</td>
+                    <td class="py-2 px-4 border-b">{assignment.assignmentDetails.name}</td>
+                    <td class="py-2 px-4 border-b">{assignment.assignmentDetails.description}</td>
+                    <td class="py-2 px-4 border-b">{assignment.marks ? assignment.marks : 'Not Evaluated!'}</td>
+                    <td class="py-2 px-4 border-b">
+                          <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
+                          <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />
+                    </td>
+                    {/* <td class="py-2 px-4 border-b">
+                      <Link to={`editAssignment/${assignment._id}`}>Edit</Link>
+                    </td> */}
+                  </tr>
+                );
+              })}
 
+              
+            </tbody>
+      </table>
+
+    ) :  (
+      <div className='flex flex-col items-center justify-center mt-10'>
+        
+          <SentimentVeryDissatisfiedOutlinedIcon  className='text-green-500' style={{fontSize:'50px',padding:'0px'}}/><br></br>
+          <h1 className='text-2xl md:text-4xl font-semibold text-indigo-500'>No Submitted Assignments Found!  </h1>
+          <Badge badgeContent={assignments.length} color="info">
+<a className="block w-full px-12 my-8 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+          href="/viewAssignments"> View Assignments
+        </a>
+          </Badge>
+      </div>
+    ) }
   </div>
 </section>
     </div>

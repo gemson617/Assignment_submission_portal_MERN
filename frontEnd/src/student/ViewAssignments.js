@@ -130,52 +130,6 @@ if(response.data.success){
       getAssignments();
   }, []);
 
-
-
-
-
-    // useEffect(() => {
-    //   const fetchPdfData = async () => {
-    //     try {
-    //       const response = await axios.get(`http://localhost:5000/student/getAssignmentPDF/${assignmentId}`);
-    //       const data =  response.data.data.attachment
-    //       setPdfData(data);
-    //       // console.log(data)
-    //     } catch (error) {
-    //       console.error('Error fetching PDF:', error);
-    //     }
-    //   };
-  
-    //   fetchPdfData();
-    // }, [assignmentId]);
-
-    // open pdf
-
-    // const handleDownload = async () => {
-    //   const url = `http://localhost:5000/files/${pdfData}`;
-    //   window.open(url, '_blank');
-    // };
-
-
-    // download pdf
-    const handleDownload = async () => {
-      const url = `http://localhost:5000/files/${pdfData}`;
-    
-      // Fetch the PDF data
-      const response = await fetch(url);
-      const blob = await response.blob();
-    
-      // Create a link element and trigger the download
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = pdfData; // Set the desired file name
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
-    
-    
-
     
   return (
     <div>
@@ -244,33 +198,15 @@ if(response.data.success){
         </Box>
       </Modal>
 
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Button onClick={getAssignments}>Get Assignments</Button>
+     
 
-      <a
-          className="block w-full px-12 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-          href="#" >
-           View Assignments
-        </a>
-        <Button onClick={handleDownload}>Download PDF</Button>
-
-
-
-        {pdfData && (
-  <embed
-    src={URL.createObjectURL(new Blob([pdfData], { type: 'application/pdf' }))}
-    type="application/pdf"
-    width="100%"
-    height="600px"
-  />
-)}
 
 
 
 {/* main div for assignment cards */}
-<div className=''>
+<div className='lg:h-screen  bg-slate-950 '>
 
-          <h1 className="mx-20 my-5 text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
+          <h1 className="mx-20 text-3xl  font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
                   Assignments For You.
           </h1>
 
