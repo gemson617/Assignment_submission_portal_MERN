@@ -144,5 +144,23 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
       res.status(500).json({ success: false, error: 'Internal server error' });
     }
   });
+
+  router.get('/getSubmitted', async(req, res) => {
+
+
+    try {
+
+          const completedAssignments = await CompletedAssignmentModel.find({});
+
+          res.send({data:completedAssignments});
+         console.log(completedAssignments)
+    } catch (error) {
+
+          console.error('Error fetching PDF:', error);
+          res.status(500).send('can\'t get assignments..sorry Admin!');
+
+    }
+
+  });
   
   module.exports = router

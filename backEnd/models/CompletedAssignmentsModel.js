@@ -11,6 +11,8 @@ const completedAssignmentSchema = new mongoose.Schema({
     studentId       :   String,
     attachment      :   String,
     comments        :   String,
+    marks           :   String,
+    status          :   String,     //1-> evaluated, 2->not evaluated
     submittedOn     :   Date
 }, {
     timestamps  : true,

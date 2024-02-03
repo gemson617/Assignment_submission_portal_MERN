@@ -9,10 +9,12 @@ import StudHome from "./student/StudHome";
 import Header from "./student/Header";
 import ViewSubmitted from "./student/ViewSubmitted";
 
+
 //admin
 import AddAssignment from "./admin/AddAssignment";
 import EditAssignment from "./admin/EditAssignment";
 import ViewAssignmentsAdmin from "./admin/ViewAssignments";
+import AdminViewSubmitted from "./admin/AdminViewSubmitted";
 
 import { Routes, Route, Switch, Link } from 'react-router-dom'
 
@@ -27,7 +29,8 @@ export default function Main() {
                 <Route path='/' element={<Login/>}/>*/}
                 <Route path='/ViewSubmitted' element={<ViewSubmitted/>}/>
                 <Route path='/viewAssignments' element={<ViewAssignments/>}/> 
-                <Route path='/viewAssignmentsAdmin' element={<ViewAssignmentsAdmin/>}/> 
+                <Route path='/admin/ViewAssignments' element={<ViewAssignmentsAdmin/>}/> 
+                <Route path='/admin/ViewSubmitted' element={<AdminViewSubmitted/>}/> 
                 <Route path='/ViewAssignmentsAdmin/editAssignment/:id' element={<EditAssignment/>}/>
                  {/* <Route path='/studRegister' element={<StudRegister/>}/> */}
 

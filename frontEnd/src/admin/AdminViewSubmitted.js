@@ -9,7 +9,7 @@ import SentimentVeryDissatisfiedOutlinedIcon from '@mui/icons-material/Sentiment
 import Badge from '@mui/material/Badge';
 
 
-function ViewSubmitted() {
+function AdminViewSubmitted() {
 
   const [assignments, setAssignments] = useState([]);
   // const [assignmentId, setAssignmentId] = useState(null);
@@ -106,15 +106,14 @@ function ViewSubmitted() {
 
 
       const getSubmittedAssignments = async () => {
-// alert('hi')
-        const id = '65ad2cda37e1038743c9b06b';
                  
         try {
-          const response = await axios.get(`http://localhost:5000/student/getSubmitted/${id}`);
+          const response = await axios.get('http://localhost:5000/admin/getSubmitted');
           const data =  response.data.data
-            //   setAssignments();
+
+          //   setAssignments();
               setAssignments(data);
-              // console.log(assignments)
+              console.log(data)
       if(response.data.success){
         alert('Assignment Retrieved Succesfully!')
         window.location.reload()
@@ -186,7 +185,7 @@ function ViewSubmitted() {
                 <th class="py-2 px-4  border-b">Description</th>
                 <th class="py-2 px-4  border-b">Section</th>
                 <th class="py-2 px-4  border-b">Attachment</th>
-                {/* <th class="py-2 px-4  border-b">Action</th> */}
+                <th class="py-2 px-4  border-b">Evaluate</th>
               </tr>
             </thead>
             <tbody>
@@ -196,16 +195,18 @@ function ViewSubmitted() {
                 return (
                   <tr className='text-center hover:bg-slate-900' key={index}>
                     <td class="py-2 px-4 border-b ">{index + 1}</td>
-                    <td class="py-2 px-4 border-b">{assignment.assignmentDetails.name}</td>
-                    <td class="py-2 px-4 border-b">{assignment.assignmentDetails.description}</td>
+                    <td class="py-2 px-4 border-b">{assignment.assignmentDetails ? assignment.assignmentDetails.name : '-'}</td>
+                    <td class="py-2 px-4 border-b">{assignment.assignmentDetails ? assignment.assignmentDetails.description : '-'}</td>
                     <td class="py-2 px-4 border-b">{assignment.marks ? assignment.marks : 'Not Evaluated!'}</td>
                     <td class="py-2 px-4 border-b">
                           <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
                           <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />
                     </td>
-                    {/* <td class="py-2 px-4 border-b">
-                      <Link to={`editAssignment/${assignment._id}`}>Edit</Link>
-                    </td> */}
+
+                    <td class="py-2 px-4 border-b">
+                          <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
+                    </td>
+                   
                   </tr>
                 );
               })}
@@ -232,4 +233,4 @@ function ViewSubmitted() {
   )
 }
 
-export default ViewSubmitted
+export default AdminViewSubmitted
