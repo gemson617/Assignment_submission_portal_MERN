@@ -150,7 +150,7 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
     try {
 
-          const completedAssignments = await CompletedAssignmentModel.find({});
+          const completedAssignments = await CompletedAssignmentModel.find({is_evaluated : 0});
 
           res.send({data:completedAssignments});
          console.log(completedAssignments)

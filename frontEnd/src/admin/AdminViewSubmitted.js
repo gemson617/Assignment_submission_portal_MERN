@@ -7,7 +7,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DownloadIcon from '@mui/icons-material/Download';
 import SentimentVeryDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import Badge from '@mui/material/Badge';
-
+import CheckIcon from '@mui/icons-material/Check';
 
 function AdminViewSubmitted() {
 
@@ -204,7 +204,7 @@ function AdminViewSubmitted() {
                     </td>
 
                     <td class="py-2 px-4 border-b">
-                          <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
+                          <CheckIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
                     </td>
                    
                   </tr>
@@ -219,9 +219,9 @@ function AdminViewSubmitted() {
       <div className='flex flex-col items-center justify-center mt-10'>
         
           <SentimentVeryDissatisfiedOutlinedIcon  className='text-green-500' style={{fontSize:'50px',padding:'0px'}}/><br></br>
-          <h1 className='text-2xl md:text-4xl font-semibold text-indigo-500'>No Submitted Assignments Found!  </h1>
+          <h1 className='text-2xl font-semibold text-indigo-500 md:text-4xl'>No Submitted Assignments Found!  </h1>
           <Badge badgeContent={assignments.length} color="info">
-<a className="block w-full px-12 my-8 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+<a className="block w-full px-12 py-3 my-8 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
           href="/viewAssignments"> View Assignments
         </a>
           </Badge>

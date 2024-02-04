@@ -12,7 +12,11 @@ const completedAssignmentSchema = new mongoose.Schema({
     attachment      :   String,
     comments        :   String,
     marks           :   String,
-    status          :   String,     //1-> evaluated, 2->not evaluated
+    is_evaluated    : {
+        type    : Number,
+        default : 0, // 1->evaluated, 0->not evaluated
+    },
+    status          :   String,
     submittedOn     :   Date
 }, {
     timestamps  : true,
