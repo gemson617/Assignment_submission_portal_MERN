@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const AssignmentModel = require('./AssignmentModels'); // Adjust the path based on your file structure
+const StudentModel = require('./StudentModel'); // Adjust the path based on your file structure
 
 
 
@@ -9,8 +10,11 @@ const completedAssignmentSchema = new mongoose.Schema({
       type: AssignmentModel.schema,
     },
     studentId       :   String,
+    studentDetails: {
+      type: StudentModel.schema,
+    },
     attachment      :   String,
-    comments        :   String,
+    feedback        :   String,
     marks           :   String,
     is_evaluated    : {
         type    : Number,

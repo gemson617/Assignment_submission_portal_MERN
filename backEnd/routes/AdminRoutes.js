@@ -145,16 +145,31 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
     }
   });
 
-  router.get('/getSubmitted', async(req, res) => {
-
+  router.get('/getAllSubmitted', async(req, res) => {
 
     try {
-
           const completedAssignments = await CompletedAssignmentModel.find({is_evaluated : 0});
 
           res.send({data:completedAssignments});
-         console.log(completedAssignments)
-    } catch (error) {
+
+        } catch (error) {
+
+          console.error('Error fetching PDF:', error);
+          res.status(500).send('can\'t get assignments..sorry Admin!');
+    }
+  });
+
+
+  router.get('/getSubmittedById/:id', async(req, res) => {
+
+      const completedId = req.params.id;
+    try {
+
+          const completedAssignment = await CompletedAssignmentModel.findById(completedId);
+
+          res.send({data:completedAssignment});
+
+        } catch (error) {
 
           console.error('Error fetching PDF:', error);
           res.status(500).send('can\'t get assignments..sorry Admin!');
@@ -162,5 +177,32 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
     }
 
   });
+
+
+    //Evaluate Assignment
+    router.put('/evaluate', upload.none(), async (req, res) => {
+      const { completedId, marks, feedback} = req.body;
+    
+      try {
+        const completedAssignment = await CompletedAssignmentModel.findById(completedId);
+        if (completedAssignment) {
+
+          completedAssignment.marks = marks;
+          completedAssignment.feedback = feedback;
+          completedAssignment.is_evaluated = 1;
+
+          const savedAssignment = await completedAssignment.save();
+
+          res.status(201).json({success:true});
+
+          // res.send({ success: true });
+        } else {
+          res.status(404).send({ success: false, error: 'Assignment not found' });
+        }
+      } catch (error) {
+        console.error('Error updating assignment:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
+      }
+    });
   
   module.exports = router

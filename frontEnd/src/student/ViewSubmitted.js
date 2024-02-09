@@ -178,13 +178,13 @@ function ViewSubmitted() {
 
     {assignments.length !== 0 ? (
     
-        <table class="min-w-full border border-gray-300 rounded-xl">
+        <table class="border border-gray-300 rounded-xl  md:w-full ">
             <thead className='bg-indigo-500 rounded-xl'>
               <tr>
                 <th class="py-2 px-4 border-b">S.No</th>
-                <th class="py-2 px-4  border-b">Assignment Name</th>
+                <th class="py-2 px-4  border-b">Assignment Namem</th>
                 <th class="py-2 px-4  border-b">Description</th>
-                <th class="py-2 px-4  border-b">Section</th>
+                <th class="py-2 px-4  border-b">Marks</th>
                 <th class="py-2 px-4  border-b">Attachment</th>
                 {/* <th class="py-2 px-4  border-b">Action</th> */}
               </tr>
@@ -198,7 +198,7 @@ function ViewSubmitted() {
                     <td class="py-2 px-4 border-b ">{index + 1}</td>
                     <td class="py-2 px-4 border-b">{assignment.assignmentDetails.name}</td>
                     <td class="py-2 px-4 border-b">{assignment.assignmentDetails.description}</td>
-                    <td class="py-2 px-4 border-b">{assignment.marks ? assignment.marks : 'Not Evaluated!'}</td>
+                    <td class="py-2 px-4 border-b">{assignment.is_evaluated ? assignment.marks : 'Not Evaluated!'}</td>
                     <td class="py-2 px-4 border-b">
                           <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
                           <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />
@@ -218,9 +218,9 @@ function ViewSubmitted() {
       <div className='flex flex-col items-center justify-center mt-10'>
         
           <SentimentVeryDissatisfiedOutlinedIcon  className='text-green-500' style={{fontSize:'50px',padding:'0px'}}/><br></br>
-          <h1 className='text-2xl md:text-4xl font-semibold text-indigo-500'>No Submitted Assignments Found!  </h1>
+          <h1 className='text-2xl font-semibold text-indigo-500 md:text-4xl'>No Submitted Assignments Found!  </h1>
           <Badge badgeContent={assignments.length} color="info">
-<a className="block w-full px-12 my-8 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+<a className="block w-full px-12 py-3 my-8 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
           href="/viewAssignments"> View Assignments
         </a>
           </Badge>
@@ -228,6 +228,7 @@ function ViewSubmitted() {
     ) }
   </div>
 </section>
+
     </div>
   )
 }

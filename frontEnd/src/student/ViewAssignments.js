@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
+import { useForm } from "react-hook-form";
+
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -36,6 +38,12 @@ const style = {
 
 function ViewAssignments() {
 
+  const {
+		register,
+		formState: { errors },
+		handleSubmit,
+	  } = useForm()
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -59,6 +67,8 @@ function ViewAssignments() {
     };
     
     const handleUpload = async () => {
+
+      alert(file)
       const formData = new FormData();
       formData.append('assignmentId', assignmentId);
       formData.append('file', file);
@@ -134,19 +144,19 @@ if(response.data.success){
   return (
     <div>
        
-        <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" className="m-10" aria-describedby="modal-modal-description">
         
-        <Box sx={style}>
+        <Box sx={style} >
 
 
                     <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 shadow-lg">
-                        <div class="mx-auto max-w-lg bg-white rounded-xl p-3">
+                        <div class="mx-auto max-w-lg bg-white rounded-xl px-16 pt-2 md:px-2">
                             <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl mt-4">Submit Assignment!</h1>
 
-                            <h1 className='mt-8 ml-4 text-2xl text-indigo-600 lg:ml-10'>{ucWords(assignmentName)}</h1>
+                            <h1 className='mt-6 ml-4 text-2xl text-indigo-600 lg:ml-10'>{ucWords(assignmentName)}</h1>
                             <p class="mx-auto mt-2 max-w-md ml-4 text-gray-600 lg:ml-10">{ucWords(description)}</p>
 
-                            <form action="" class="mb-0 space-y-4 rounded-lg  shadow-lg p-6 lg:px-8 px-2">
+                            <form action="" class="mb-0 space-y-4 rounded-lg shadow-lg p-6 lg:px-8 px-2">
 
                             <div>
                                 <label for="email" class="sr-only">Email</label>
@@ -204,14 +214,14 @@ if(response.data.success){
 
 
 {/* main div for assignment cards */}
-<div className='lg:h-screen  bg-slate-950 '>
+<div className='lg:h-screen bg-slate-950'>
 
-          <h1 className="mx-20 text-3xl  font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
+          <h1 className="pt-10 mx-20 text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
                   Assignments For You.
           </h1>
 
 
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mx-10 md:mx-20 my-20">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mx-10 md:mx-20 my-14">
 
                 {assignments ?   (
 

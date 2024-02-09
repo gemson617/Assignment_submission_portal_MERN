@@ -3,7 +3,7 @@ const multer = require('multer');
 const router = express.Router()
 const AssignmentModel = require('../models/AssignmentModels')
 const CompletedAssignmentModel = require('../models/CompletedAssignmentsModel')
-const studentModel = require('../models/studentModel')
+const studentModel = require('../models/StudentModel')
 
 
 // Set up multer storage
@@ -27,42 +27,47 @@ const upload = multer({ storage: storage });
 //get all Friendss
 router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
-            const fileData = req.file.filename;
-            const assignmentId =  req.body.assignmentId;
-            const studentId = '65ad2cda37e1038743c9b06b';
-            const comments = req.body.comments;
+            // const fileData = req.file.filename;
+            // const assignmentId =  req.body.assignmentId;
+            // const studentId = '65ad2cda37e1038743c9b06b';
+            // const comments = req.body.comments;
 
 
-            const assignmentDetails = await AssignmentModel.findById(assignmentId).select({
-              _id: 0,       
-              classes: 0,   
-              section: 0,   
-              status: 0,   
-              updatedAt: 0,   
-              __v: 0,   
-            });
+            // const assignmentDetails = await AssignmentModel.findById(assignmentId).select({
+            //   _id: 0,       
+            //   classes: 0,   
+            //   section: 0,   
+            //   status: 0,   
+            //   updatedAt: 0,   
+            //   __v: 0,   
+            // });
 
-            console.log(assignmentDetails)
+            // const studentDetails = await studentModel.findById(studentId).select({ 
+            //   _id: 0,        
+            //   status: 0,   
+            //   timestamps: 0,   
+            //   __v: 0,   
+            // });
 
-            const newAssignment = new CompletedAssignmentModel({
-              attachment     :   fileData, // Assuming you have a field named fileData in your schema
-              comments       :   comments,
-              studentId      :   studentId,
-              assignmentId   :   assignmentId,
-              assignmentDetails   :   assignmentDetails,
-            });
 
-            // console.log(newAssignment)
+            // const newAssignment = new CompletedAssignmentModel({
+            //   attachment         :   fileData,
+            //   comments           :   comments,
+            //   studentId          :   studentId,
+            //   assignmentId       :   assignmentId,
+            //   assignmentDetails  :   assignmentDetails,
+            //   studentDetails     :   studentDetails,
+            // });
+
             
-            try {
-              const insertedAssignment = await newAssignment.save();
-              // res.status(201).json({success:true});
+            // try {
+            //   const insertedAssignment = await newAssignment.save();
 
-              res.json({ message: 'File uploaded and assignment submitted successfully!', success:true });
-            } catch (error) {
-              console.error('Error inserting assignment:', error);
-              res.status(500).json({ message: 'Internal Server Error' });
-            }
+            //   res.json({ message: 'File uploaded and assignment submitted successfully!', success:true });
+            // } catch (error) {
+            //   console.error('Error inserting assignment:', error);
+            //   res.status(500).json({ message: 'Internal Server Error' });
+            // }
 
 
             // res.json({ message: 'File uploaded successfully!' });

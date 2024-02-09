@@ -2,10 +2,17 @@ import React, { useState, useEffect, useRef, useReducer } from "react";
 import "../index.css";
 import sideImage from '../assets/AssignmentPic.jpg'; // Path to your local image
 import axios from 'axios';
+import { useForm } from "react-hook-form"
 
 
 function AddAssignment() {
 
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+	  } = useForm()
+	
     const imageUrl = 'https://source.unsplash.com/Mv9hjnEUHR4/600x800';
 
 	
@@ -52,19 +59,19 @@ function AddAssignment() {
 
 	  console.log(formData)
   
-      try {
-        const response = await axios.post('http://localhost:5000/admin/addAssignment', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-		if(response.data.success){
-			alert('Assignment Created Succesfully!')
-			window.location.reload()
-		}
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
+    //   try {
+    //     const response = await axios.post('http://localhost:5000/admin/addAssignment', formData, {
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //       },
+    //     });
+	// 	if(response.data.success){
+	// 		alert('Assignment Created Succesfully!')
+	// 		window.location.reload()
+	// 	}
+    //   } catch (error) {
+    //     console.error('Error uploading file:', error);
+    //   }
     };
 
     const divStyle = {
@@ -75,6 +82,27 @@ function AddAssignment() {
       backgroundSize: 'cover',
       // Add more styles as needed
     };
+
+
+
+
+	const onSubmit = async(data) => {
+
+		try {
+			const response = await axios.post('http://localhost:5000/admin/addAssignment', data, {
+			  headers: {
+				'Content-Type': 'multipart/form-data',
+			  },
+			});
+			if(response.data.success){
+				alert('Assignment Created Succesfully!')
+				window.location.reload()
+			}
+		  } catch (error) {
+			console.error('Error uploading file:', error);
+		  }
+	
+	};
   return (
     <div>
         
@@ -91,21 +119,22 @@ function AddAssignment() {
 				{/* <!-- Col --> */}
 				<div class="w-full bg-indigo-500 dark:bg-gray-700 p-5 rounded-lg md:rounded-l-none">
 					<h3 class="py-2 text-4xl text-center text-gray-100 dark:text-white">Assign Assignment!</h3>
-					<form class="px-2 pt-6 pb-8 mb-4 bg-indigo-500 dark:bg-gray-800 rounded">
+					<form class="px-2 pt-6 pb-8 mb-4 bg-indigo-500 dark:bg-gray-800 rounded" onSubmit={handleSubmit(onSubmit)} >
 							<div class="mb-4 md:mb-0 w-full">
 								<label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
-                                    Assignment Name
+                                    Assignment Name <span className="text-red-700"> *</span>
                                 </label>
 								<input
-									type="email" onChange={handleAssignmentName}
+									type="text" {...register("name", { required: 'Assignment Name is Required' })}
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm"/>
+									 {errors?.name && <b role="alert" className="text-red-700 italic text-sm">{errors?.name.message}</b> }
 							</div>
 							<div class="mt-2 w-full" >
 								<label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
 								Assignment Description
                                 </label>
 								<input
-									type="text" onChange={handleDescription}
+									type="text"  {...register("description")} 
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm"/>
 							</div>
 							<div class="mb-4 md:flex md:justify-between mt-2">
@@ -113,23 +142,25 @@ function AddAssignment() {
 								<label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
                                     Class
                                 </label>			
-									<select id="countries" onChange={handleClass} class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-										<option selected>Choose a Class</option>
+									<select id="countries"  {...register("classes", { required: 'Class is Required' })} class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+										<option selected value=''>Choose a Class</option>
 										<option value="8">8th</option>
 										<option value="9">9th</option>
 										<option value="10">10th</option>
 										<option value="11">11th</option>
 										<option value="12">12th</option>
 									</select>
+									{errors?.classes && <b role="alert" className="text-red-600 italic text-sm">{errors?.classes.message}</b> }
+
 
 									
 							</div>
 							<div class=" w-full">
 								<label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
-								Section
+								Section  <span className="text-red-700"> *</span>
                                 </label>
-								<select id="countries" onChange={handleSection} class="bg-gray-50 border font-sans border-gray-300 text-gray-900 text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-										<option selected>Choose a Section</option>
+								<select id="countries" {...register("section", { required: 'Section is Required' })} class="bg-gray-50 border font-sans border-gray-300 text-gray-900 text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+										<option selected value=''>Choose a Section</option>
 										<option value="all">All</option>
 										<option value="a">A</option>
 										<option value="b">B</option>
@@ -137,31 +168,33 @@ function AddAssignment() {
 										<option value="d">D</option>
 										<option value="e">E</option>
 									</select>
+									{errors?.section && <b role="alert" className="text-red-600 italic text-sm">{errors?.section.message}</b> }
+
 							</div>
 						</div>
 		
 						<div class="mb-4 md:flex md:justify-between">
 							<div class="mb-4 md:mr-2 md:mb-0 w-full">
 								<label class="block mb-2 text-lg text-gray-100 dark:text-white" for="password">
-                                    Due Date
+                                    Due Date  <span className="text-red-700"> *</span>
                                 </label>
-								<input type="date" onChange={handleDueDate}
+								<input type="date"  {...register("dueDate", { required: 'Due Date is Required' })}
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm"/>
-								{/* <p class="text-xs italic text-red-500">Please choose a password.</p> */}
+									{errors?.dueDate && <b role="alert" className="text-red-600 italic text-sm">{errors?.dueDate.message}</b> }
 							</div>
 							<div class="md:ml-2 w-full">
 								<label class="block mb-2 text-lg text-gray-100 dark:text-white" for="c_password">
                                     Notes
                                 </label>
-									<input type="text" onChange={handleNotes}
+									<input type="text" {...register("notes")}
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm" />
 							</div>
 						</div>
-						
+						{/* onClick={handleAsssign} */}
 						<div class="text-center">
-							<button onClick={handleAsssign}
+							<button type='submit'
                                 class="w-full px-4 py-2 font-bold text-white bg-slate-950 rounded-full hover:bg-slate-900 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
-                                type="button">
+                                >
                                 Create
                             </button>
 						</div>

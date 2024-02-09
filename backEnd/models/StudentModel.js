@@ -3,13 +3,10 @@ const mongoose = require('mongoose');
 
 
 const studentSchema = new mongoose.Schema({
-    dNo         :String,
+    dNo         : String,
     name        : String,
-    // description : String,
     classes     : String,
     section     : String,
-    // dueDate     : Date,
-    // notes       : String,
     status      : {
       type: Number,
       default: 1,
