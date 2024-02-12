@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import { useForm } from "react-hook-form";
+import { useTable } from 'react-table';
 
 
 
@@ -45,13 +46,20 @@ function ViewAssignments() {
 	  } = useForm()
 
     const [open, setOpen] = useState(false);
+    const [file, setFile] = useState(null);
+    const [comments, setComments] = useState('');
+    
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => 
+    { 
+      setOpen(false);
+      setFile(null);
+      setComments(null);
+    }
     const [assignmentName, setAssignmentName] = useState('');
     const [description, setDescription] = useState('');
 
-    const [file, setFile] = useState(null);
-    const [comments, setComments] = useState('');
+
 
     function ucWords(str) {
       return str.replace(/\b\w/g, match => match.toUpperCase());
@@ -66,30 +74,7 @@ function ViewAssignments() {
       setComments(event.target.value);
     };
     
-    const handleUpload = async () => {
-
-      alert(file)
-      const formData = new FormData();
-      formData.append('assignmentId', assignmentId);
-      formData.append('file', file);
-      formData.append('comments', comments);
-  
-      try {
-        const response = await axios.post('http://localhost:5000/student/submitAssignment', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        if(response.data.success){
-          alert('Submitted Successfully!');
-        }
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-    };
-
-
+   
     const getSpecificAssignment = async (id) => {
       // alert(id)
       try {
@@ -99,9 +84,6 @@ function ViewAssignments() {
           setAssignmentId(id)
           setAssignmentName(assignment.name)
           setDescription(assignment.description)
-          // setSection(assignment.section)
-          // setDueDate(assignment.dueDate)
-          // setNotes(assignment.notes)
 
           setOpen(true)
           } catch (error) {
@@ -114,32 +96,54 @@ function ViewAssignments() {
     const [assignmentId, setAssignmentId] = useState(null);
 
     const [assignments, setAssignments] = useState([]);
-// console.log(assignments)
 
-const getAssignments = async () => {
+    
+    const getAssignments = async () => {
 
-  const id = '65ad2cda37e1038743c9b06b';
+    const id = '65ad2cda37e1038743c9b06b';
            
-  try {
-    const response = await axios.get(`http://localhost:5000/student/getAssignments/${id}`);
-    const data =  response.data.data
-        // setAssignments();
-        setAssignments(data);
-        console.log(assignments)
-if(response.data.success){
-  alert('Assignment Retrieved Succesfully!')
-  window.location.reload()
-}
-  } catch (error) {
-    console.error('Error uploading file:', error);
-  }
-};
+        try {
+          const response = await axios.get(`http://localhost:5000/student/getAssignments/${id}`);
+          const data =  response.data.data
+              // setAssignments();
+              setAssignments(data);
+
+              if(response.data.success){
+        alert('Assignment Retrieved Succesfully!')
+        window.location.reload()
+      }
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+    };
 
 
   useEffect(() => {
       getAssignments();
   }, []);
 
+  const onSubmit = async(data) => {
+    const formData = new FormData();
+    formData.append('assignmentId', assignmentId);
+    formData.append('file', file);
+    formData.append('comments', comments);
+
+    try {
+      const response = await axios.post('http://localhost:5000/student/submitAssignment', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if(response.data.success){
+        handleClose()
+        alert('Submitted Successfully!');
+
+        window.location.reload()
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }  }
     
   return (
     <div>
@@ -154,9 +158,8 @@ if(response.data.success){
                             <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl mt-4">Submit Assignment!</h1>
 
                             <h1 className='mt-6 ml-4 text-2xl text-indigo-600 lg:ml-10'>{ucWords(assignmentName)}</h1>
-                            <p class="mx-auto mt-2 max-w-md ml-4 text-gray-600 lg:ml-10">{ucWords(description)}</p>
 
-                            <form action="" class="mb-0 space-y-4 rounded-lg shadow-lg p-6 lg:px-8 px-2">
+                            <form action="" class="mb-0 space-y-4 rounded-lg shadow-lg p-6 lg:px-8 px-2"  onSubmit={handleSubmit(onSubmit)} >
 
                             <div>
                                 <label for="email" class="sr-only">Email</label>
@@ -169,9 +172,10 @@ if(response.data.success){
                                 /> */}
 
                           <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} className='w-full'>
-                                Upload Assignment
-                                <VisuallyHiddenInput type="file" name='file'  onChange={handleFileChange}/>
+                               { file ? file.name : 'Upload Assignment'}
+                                <VisuallyHiddenInput type="file" name='file' {...register("file", { required: 'Attachment is Required' })} onChange={handleFileChange}/>
                               </Button>
+                              {errors?.file && <b role="alert" className="text-xs italic text-red-500">{errors?.file.message}</b> }
 
                                 </div>
                             </div>
@@ -192,7 +196,7 @@ if(response.data.success){
 
                             <div className='flex justify-between gap-1'>
                               <button
-                                  type="submit" onClick={handleUpload}
+                                  type="submit" 
                                   class="block w-full rounded-lg bg-indigo-600 px-2 py-2 text-sm font-bold text-white"
                               >Submit</button>
                               <button
@@ -231,8 +235,7 @@ if(response.data.success){
 
                       const formattedDueDate = originalDate.toLocaleDateString('en-GB').replace(/\//g, '-'); // 'en-GB' represents the format 'dd-mm-yyyy'
                       const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');                     
-                     console.log(formattedDueDate)
-                      console.log(today)
+
                       return(
                               <article key={index} onClick={()=> getSpecificAssignment(assignment._id)} class="p-0.5 m-1  overflow-hidden transition duration-300 transform bg-indigo-400 cursor-pointer group rounded-xl hover:bg-indigo-500 hover:scale-105 hover:shadow-lg"
                                 title="click to submit">
