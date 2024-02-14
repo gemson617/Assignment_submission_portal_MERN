@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-import { useTable } from 'react-table';
 
 
 

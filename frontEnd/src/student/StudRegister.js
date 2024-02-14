@@ -5,7 +5,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import { useForm } from "react-hook-form";
+import axios from 'axios';
 
 
 function StudRegister() {
@@ -22,6 +23,12 @@ function StudRegister() {
         setSection(event.target.value);
       };
 
+      const {
+		register,
+		formState: { errors },
+		handleSubmit,
+	  } = useForm()
+      
     const divStyle = {
     //   width: '100%',
     //   height: 'auto',
@@ -45,6 +52,24 @@ function StudRegister() {
         { class: 'C' },
         { class: 'D' },
     ]
+
+
+    const onSubmit = async(data) => {
+          console.log(data)
+        try {
+          const response = await axios.post('http://localhost:5000/login/updateStudent', data, {
+          });
+
+    
+          if(response.data.success){
+            alert(response.data.msg);
+    
+            window.location.reload()
+          }
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+    }
     
   return (
     <div>
@@ -62,7 +87,7 @@ function StudRegister() {
 				{/* <!-- Col --> */}
 				<div class="w-full bg-white dark:bg-gray-700 p-5 rounded-lg md:rounded-l-none">
 					<h3 class="py-4 text-2xl text-center text-gray-800 dark:text-white">Register Here</h3>
-					<form class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
+					<form class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded" onSubmit={handleSubmit(onSubmit)}>
 						<div class="mb-4 md:flex md:justify-between">
 							<div class="mb-4  md:mb-0 w-full">
 								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="firstName">
@@ -88,33 +113,13 @@ function StudRegister() {
 							</div>
 						</div>
 
-                        <div class="mb-4 md:flex md:justify-between">
+                        {/* <div class="mb-4 md:flex md:justify-between">
 							<div class="mb-4  md:mb-0 w-full">
 								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="firstName">
                                     Class
                                 </label>
 
-                                {/* <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                                    <InputLabel id="demo-select-small-label">Select Class</InputLabel>
-                                    <Select
-                                        labelId="demo-select-small-label"
-                                        id="demo-select-small"
-                                        value={studClass}
-                                        label="Class"
-                                        onChange={handleChangeClass}
-                                    >
-                                        <MenuItem value="">
-                                        <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={8}>8th</MenuItem>
-                                        <MenuItem value={9}>9th</MenuItem>
-                                        <MenuItem value={10}>10th</MenuItem>
-                                        <MenuItem value={11}>11th</MenuItem>
-                                        <MenuItem value={12}>12th</MenuItem>
-                                    </Select>
-                                    </FormControl> */}
-
-
+                            
                                     <FormControl variant="standard" className='w-full'>
                                         <InputLabel id="demo-simple-select-autowidth-label">Select Class</InputLabel>
                                         <Select
@@ -135,37 +140,12 @@ function StudRegister() {
                                         </Select>
                                     </FormControl>
 
-
-
-                                    
-								{/* <input
-                                    class="w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    id="firstName"
-                                    type="text"
-                                    placeholder="First Name"
-                                /> */}
 							</div>
 							<div class="md:ml-2 w-full ">
 								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="lastName">
                                     Section
                                 </label>
-                                {/* <FormControl sx={{ m: 1,minWidth: 240 }} size="small">
-                                    <InputLabel id="demo-select-small-label">Select Section</InputLabel>
-                                    <Select
-                                        labelId="demo-select-small-label"
-                                        id="demo-select-small"
-                                        value={studSection}
-                                        label="Section"
-                                        onChange={handleChangeSection}
-                                    >
-                                        <MenuItem value="">
-                                        <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value='a'>A</MenuItem>
-                                        <MenuItem value='b'>B</MenuItem>
-                                        <MenuItem value='c'>C</MenuItem>
-                                    </Select>
-                                    </FormControl> */}
+                              
 
                                     <FormControl variant="standard" className='w-full m-6'>
                                         <InputLabel id="demo-simple-select-autowidth-label">Select Section</InputLabel>
@@ -187,13 +167,13 @@ function StudRegister() {
                                 
 					
 							</div>
-						</div>
+						</div> */}
                         
 						<div class="mb-4">
 							<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="email">
                                 Email
                             </label>
-							<input
+							<input {...register("email")} 
                                 class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="email"
                                 type="email"
@@ -205,7 +185,7 @@ function StudRegister() {
 								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="password">
                                     Password
                                 </label>
-								<input
+								<input {...register("password")} 
                                     class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                     id="password"
                                     type="password"
@@ -228,7 +208,7 @@ function StudRegister() {
 						<div class="mb-6 text-center">
 							<button
                                 class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
-                                type="button"
+                                type="submit"
                             >
                                 Register Account
                             </button>

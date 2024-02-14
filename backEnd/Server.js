@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const HomeRouter = require('./routes/HomeRoutes')
 const StudentRouter = require('./routes/StudentRoutes')
 const AdminRouter = require('./routes/AdminRoutes')
+const StudentLogin = require('./routes/StudentLogin')
 
 const app = express()
 const PORT = process.env.PORT | 5000
@@ -31,6 +32,7 @@ async function main() {
 
 app.use('/',HomeRouter)
 app.use('/student',StudentRouter)
+app.use('/login',StudentLogin)
 app.use('/admin',AdminRouter)
 
 

@@ -7,6 +7,8 @@ const studentSchema = new mongoose.Schema({
     name        : String,
     classes     : String,
     section     : String,
+    email       : String,
+    password    : String,
     status      : {
       type: Number,
       default: 1,

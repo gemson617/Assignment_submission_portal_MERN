@@ -7,6 +7,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DownloadIcon from '@mui/icons-material/Download';
 import SentimentVeryDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import Badge from '@mui/material/Badge';
+import SubmittedTable from "../student/SubmittedTable";
+
 
 
 function ViewSubmitted() {
@@ -133,60 +135,56 @@ function ViewSubmitted() {
 
 
 
+
+    const columns = React.useMemo(
+      () => [
+        {
+          Header: 'Name',
+          accessor: 'name',
+        },
+        {
+          Header: 'Age',
+          accessor: 'age',
+        },
+        // Add more columns as needed
+      ],
+      []
+    );
+  
+    const data = React.useMemo(
+      () => [
+        {
+          name: 'John Doe',
+          age: 30,
+        },
+        {
+          name: 'Jane Smith',
+          age: 25,
+        },
+        // Add more rows as needed
+      ],
+      []
+    );
+
+
+
+
   return (
     <div className='h-full'>
         <Header/>
           <section className="py-10 text-white bg-slate-950 md:h-full ">
-            {/* <div className='flex justify-end mx-4'>
-                <div class="mb-4 md:mb-0 w-full md:w-44 mr-2">
-                      <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
-                                          Class
-                                      </label>			
-                        <select id="countries" onChange={handleClass} class="bg-gray-50 border border-purple-900 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1  pl-3 mr-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          <option value="all" selected>All</option>
-                          <option value="8"> 8th</option>
-                          <option value="9"> 9th</option>
-                          <option value="10">10th</option>
-                          <option value="11">11th</option>
-                          <option value="12">12th</option>
-                        </select>
-
-                        
-                    </div>
-                    <div class=" w-full md:w-44 ">
-                      <label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
-                      Section
-                                      </label>
-                      <select id="countries" onChange={handleSection} class="bg-gray-50 border font-sans border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1  pl-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          <option value="all" selected>All</option>
-                          <option value="a">A</option>
-                          <option value="b">B</option>
-                          <option value="c">C</option>
-                          <option value="d">D</option>
-                          <option value="e">E</option>
-                        </select>
-                    </div>
-                    <div>
-                     <button onClick={handleFilter}
-                                class="w-full mt-9 ml-2 px-4 py-1 font-semibold text-slate-900 bg-slate-200 rounded-full hover:bg-green-500 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
-                                type="button">
-                                Filter
-                            </button>
-                    </div>
-              </div> */}
   <div className="px-4 py-4">
 
-    {assignments.length !== 0 ? (
+    {/* {assignments.length !== 0 ? (
     
         <table class="border border-gray-300 rounded-xl  md:w-full ">
             <thead className='bg-indigo-500 rounded-xl'>
               <tr>
                 <th class="py-2 px-4 border-b">S.No</th>
-                <th class="py-2 px-4  border-b">Assignment Namem</th>
+                <th class="py-2 px-4  border-b">Assignment Name</th>
                 <th class="py-2 px-4  border-b">Description</th>
                 <th class="py-2 px-4  border-b">Marks</th>
                 <th class="py-2 px-4  border-b">Attachment</th>
-                {/* <th class="py-2 px-4  border-b">Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -203,9 +201,7 @@ function ViewSubmitted() {
                           <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
                           <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />
                     </td>
-                    {/* <td class="py-2 px-4 border-b">
-                      <Link to={`editAssignment/${assignment._id}`}>Edit</Link>
-                    </td> */}
+                
                   </tr>
                 );
               })}
@@ -225,7 +221,10 @@ function ViewSubmitted() {
         </a>
           </Badge>
       </div>
-    ) }
+    ) } */}
+
+<SubmittedTable columns={columns} data={data} />
+
   </div>
 </section>
 

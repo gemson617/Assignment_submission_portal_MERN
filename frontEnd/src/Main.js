@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Login from "./auth/Login";
+import Login from "./student/Login";
 import StudRegister from "./student/StudRegister";
 import ViewAssignments from "./student/ViewAssignments";
 import StudHome from "./student/StudHome";
 import Header from "./student/Header";
 import ViewSubmitted from "./student/ViewSubmitted";
+// import EditProfile from "./student/EditProfile";
 
 
 //admin
@@ -26,11 +27,12 @@ export default function Main() {
      {/* <Header /> */} 
 
        <Routes>
-           {/*  <Route path='/studentHome' element={<StudHome/>}/>
-                <Route path='/' element={<Login/>}/>*/}
-
+           <Route path='/studentHome' element={<StudHome/>}/>
+                <Route path='/' element={<Login/>}/>
+{/*  */}
                 <Route path='/ViewSubmitted' element={<ViewSubmitted/>}/>
                 <Route path='/viewAssignments' element={<ViewAssignments/>}/> 
+                <Route path='/editProfile' element={<StudRegister/>}/> 
 
                 {/* Admin */}
                 <Route path='/admin/ViewAssignments' element={<ViewAssignmentsAdmin/>}/> 
@@ -41,9 +43,9 @@ export default function Main() {
                  {/* <Route path='/studRegister' element={<StudRegister/>}/> */}
 
         </Routes> 
-   <StudHome />
-     {/*    <Login />
-      <ViewAssignments />
+   {/* <StudHome /> */}
+       {/* <Login /> */}
+       {/* <ViewAssignments />
       <AddAssignment /> 
       <ViewAssignmentsAdmin />*/}
       {/* <StudRegister /> */}
