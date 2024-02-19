@@ -27,9 +27,8 @@ export default function Main() {
      {/* <Header /> */} 
 
        <Routes>
-           <Route path='/studentHome' element={<StudHome/>}/>
                 <Route path='/' element={<Login/>}/>
-{/*  */}
+                <Route path='/studentHome' element={<StudHome/>}/>
                 <Route path='/ViewSubmitted' element={<ViewSubmitted/>}/>
                 <Route path='/viewAssignments' element={<ViewAssignments/>}/> 
                 <Route path='/editProfile' element={<StudRegister/>}/> 

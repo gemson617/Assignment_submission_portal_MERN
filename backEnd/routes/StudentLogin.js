@@ -49,15 +49,16 @@ router.post('/updateStudent', asyncHandler(async(req, res) => {
 
     router.post('/studentLogin', asyncHandler(async(req, res) => {
       const {email, password} = req.body;
-    
       try {
   
           const studentExists = await studentModel.findOne({email:email});
   
           if(studentExists && (await bcrypt.compare(password,studentExists.password))){
               
-            const tokenVal = generateToken(studentExists._id);
-  
+            const tokenVal = generateToken(studentExists._id);            
+
+            // localStorage.setItem('token', tokenVal);
+
               res.status(200).json({msg:'Loggeddd In Successfully!',success:true, token : tokenVal})
   
   

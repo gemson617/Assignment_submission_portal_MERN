@@ -30,8 +30,11 @@ async function main() {
   }
 }
 
+const {protect} = require('./middleware/AuthMiddleware')
+
+
 app.use('/',HomeRouter)
-app.use('/student',StudentRouter)
+app.use('/student', StudentRouter)
 app.use('/login',StudentLogin)
 app.use('/admin',AdminRouter)
 

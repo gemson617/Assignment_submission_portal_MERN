@@ -3,33 +3,36 @@ import Header from "./Header";
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCartRounded';
 import axios from 'axios';
+import { getAssignmentsApi } from './ApiUtils';
+import { useNavigate } from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux'
+import {setTokenAlert, mismatchAlert } from './states/ErrorSlice'
+
 
 function StudHome() {
 
   const [assignments, setAssignments] = useState([]);
-  const getAssignments = async () => {
 
-    const id = '65ad2cda37e1038743c9b06b';
-             
-    try {
-      const response = await axios.get(`http://localhost:5000/student/getAssignments/${id}`);
-      const data =  response.data.data
-          // setAssignments();
-          setAssignments(data);
-          console.log(assignments)
-  if(response.data.success){
-    alert('Assignment Retrieved Succesfully!')
-    window.location.reload()
-  }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    }
+  const navigate = useNavigate();
+  
+  const dispatch = useDispatch();
+  const tokenAlert = useSelector((state) => state.ErrorSlice.tokenAlert)
+
+  const getAssignments = async (dispatch) => {
+    
+    getAssignmentsApi(setAssignments, navigate, dispatch);
+
   };
   
   
     useEffect(() => {
-        getAssignments();
+        getAssignments(dispatch);
     }, []);
+
+    // const handleIncrement = () =>{
+    //   dispatch(setTokenAlert())
+    // };
 
   return (
     <div>
@@ -52,7 +55,6 @@ function StudHome() {
 
         <span className="block"> Accelerate Your Grades. </span>
       </h1>
-
  
 
       <div className="flex flex-wrap justify-center gap-4 mt-8">

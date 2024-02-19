@@ -2,12 +2,21 @@ import React from 'react'
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { useNavigate } from 'react-router-dom';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 function Header() {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () =>{
+    localStorage.removeItem('token');
+    alert('Logged Out');
+    navigate('/');
+  }
   return (
     <div>
         
@@ -27,7 +36,7 @@ function Header() {
               <a href="/editProfile">My Profile</a>
             </li>
             <li class="p-4 border-b-2 border-green-500 border-opacity-0 hover:border-opacity-100 hover:text-green-500 duration-200 cursor-pointer">
-              <a href="">Logout</a>
+              <a href="#" onClick={handleLogout}>Logout</a>
             </li> 
         </ul>
     </nav>

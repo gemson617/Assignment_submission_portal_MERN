@@ -8,7 +8,9 @@ import DownloadIcon from '@mui/icons-material/Download';
 import SentimentVeryDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import Badge from '@mui/material/Badge';
 import SubmittedTable from "../student/SubmittedTable";
-
+import { getSubmittedAssignmentsApi } from './ApiUtils';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
 
 
 function ViewSubmitted() {
@@ -18,6 +20,9 @@ function ViewSubmitted() {
   const [classes, setClass] = useState('all');
 	const [section, setSection] = useState('all');
   const [pdfData, setPdfData] = useState('');
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClass = (event) => {
     setClass(event.target.value);
@@ -107,29 +112,16 @@ function ViewSubmitted() {
 
 
 
-      const getSubmittedAssignments = async () => {
-// alert('hi')
-        const id = '65ad2cda37e1038743c9b06b';
-                 
-        try {
-          const response = await axios.get(`http://localhost:5000/student/getSubmitted/${id}`);
-          const data =  response.data.data
-            //   setAssignments();
-              setAssignments(data);
-              // console.log(assignments)
-      if(response.data.success){
-        alert('Assignment Retrieved Succesfully!')
-        window.location.reload()
-      }
-        } catch (error) {
-          console.error('Error uploading file:', error);
-        }
+      const getSubmittedAssignments = async (setAssignments, navigate, dispatch) => {
+        
+        getSubmittedAssignmentsApi(setAssignments, navigate, dispatch);
+
       };
 
 
   
       useEffect(() => {
-        getSubmittedAssignments();
+        getSubmittedAssignments(setAssignments, navigate, dispatch);
     }, []);
 
 
@@ -175,7 +167,7 @@ function ViewSubmitted() {
           <section className="py-10 text-white bg-slate-950 md:h-full ">
   <div className="px-4 py-4">
 
-    {/* {assignments.length !== 0 ? (
+    {assignments.length !== 0 ? (
     
         <table class="border border-gray-300 rounded-xl  md:w-full ">
             <thead className='bg-indigo-500 rounded-xl'>
@@ -221,9 +213,9 @@ function ViewSubmitted() {
         </a>
           </Badge>
       </div>
-    ) } */}
+    ) }
 
-<SubmittedTable columns={columns} data={data} />
+{/* <SubmittedTable columns={columns} data={data} /> */}
 
   </div>
 </section>

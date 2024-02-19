@@ -9,6 +9,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import { useForm } from "react-hook-form";
+import { viewAssignmentsApi } from './ApiUtils';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
 
 
 
@@ -38,6 +41,8 @@ const style = {
 
 function ViewAssignments() {
 
+  const navigate = useNavigate();
+
   const {
 		register,
 		formState: { errors },
@@ -48,6 +53,8 @@ function ViewAssignments() {
     const [file, setFile] = useState(null);
     const [comments, setComments] = useState('');
     
+  const dispatch = useDispatch();
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => 
     { 
@@ -75,9 +82,8 @@ function ViewAssignments() {
     
    
     const getSpecificAssignment = async (id) => {
-      // alert(id)
       try {
-          const response = await axios.get(`http://localhost:5000/admin/getAssignmentsById/${id}`, );
+          const response = await axios.get(`http://localhost:5000/student/getAssignmentsById/${id}`, );
           const assignment =  response.data.data
 
           setAssignmentId(id)
@@ -97,25 +103,13 @@ function ViewAssignments() {
     const [assignments, setAssignments] = useState([]);
 
     
+
+
     const getAssignments = async () => {
 
-    const id = '65ad2cda37e1038743c9b06b';
-           
-        try {
-          const response = await axios.get(`http://localhost:5000/student/getAssignments/${id}`);
-          const data =  response.data.data
-              // setAssignments();
-              setAssignments(data);
-
-              if(response.data.success){
-        alert('Assignment Retrieved Succesfully!')
-        window.location.reload()
-      }
-        } catch (error) {
-          console.error('Error uploading file:', error);
-        }
+      viewAssignmentsApi(setAssignments,navigate, dispatch);
+  
     };
-
 
   useEffect(() => {
       getAssignments();

@@ -4,6 +4,8 @@ const router = express.Router()
 const AssignmentModel = require('../models/AssignmentModels')
 const CompletedAssignmentModel = require('../models/CompletedAssignmentsModel')
 const studentModel = require('../models/StudentModel')
+const {protect} = require('../middleware/AuthMiddleware')
+
 
 
 // Set up multer storage
@@ -30,7 +32,11 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
             const fileData = req.file.filename;
 
             const assignmentId =  req.body.assignmentId;
-            const studentId = '65ad2cda37e1038743c9b06b';
+            // const studentId = '65ad2cda37e1038743c9b06b';
+
+            const student = req.student;
+            const studentId = student._id;
+
             const comments = req.body.comments;
 
 
@@ -108,9 +114,11 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
     });
 
 
-    router.get('/getAssignments/:id', async(req, res) => {
+    router.get('/getAssignments',protect, async(req, res) => {
 
-      const studentId = req.params.id;
+
+      const student = req.student;
+      const studentId = student._id;
 
       const studentDetails = await studentModel.findById(studentId);
 
@@ -126,14 +134,9 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
        );
      });
 
-    //  console.log(filteredAssignments)
-
-
       try {
 
-          // Default query when no specific conditions are met
           assignment = await AssignmentModel.find({});
-        
        
         res.send({data:filteredAssignments});
       } catch (error) {
@@ -164,6 +167,25 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
   
     });
 
+
+       // GET ASSIGNMENT BY ID - TO UPDATE
+  router.get('/getAssignmentsById/:id', async(req, res) => {
+    const id = req.params.id;
+  
+    let assignment;
+    try {
+
+        // Default query when no specific conditions are met
+        assignment = await AssignmentModel.findById(id);
+        console.log(assignment)
+     
+      res.send({data:assignment});
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+      res.status(500).send('can\'t get assignments..sorry Admin!');
+    }
+
+  });
 
 
 
