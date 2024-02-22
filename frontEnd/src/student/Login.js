@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { setTokenAlert } from './states/ErrorSlice';
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 
 function Login() {
@@ -20,6 +21,13 @@ function Login() {
     handleSubmit,
   } = useForm()
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
+  
 
   const onSubmit = async (data) => {
 
@@ -84,7 +92,7 @@ function Login() {
                 <input {...register("email", { required: 'Email is Required' })}
                   type="email"
                   class="w-full rounded-lg border-gray-200 text-indigo-600  p-3 pe-12 text-sm shadow-sm"
-                  placeholder="Enter email"
+                  placeholder="Email"
                 />
                 {errors?.email && <b role="alert" className="text-xs italic text-red-500">{errors?.email.message}</b> }
 
@@ -113,33 +121,19 @@ function Login() {
 
               <div class="relative">
                 <input {...register("password", { required: 'Password is Required' })}
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   class="w-full rounded-lg border-gray-200 p-3 text-sm shadow-sm"
-                  placeholder="Enter password"
+                  placeholder="Password"
                 />
                 {errors?.password && <b role="alert" className="text-xs italic text-red-500">{errors?.password.message}</b> }
 
                 <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
+                <p  className='cursor-pointer hover:text-green-600' onClick={togglePasswordVisibility}>
+        {/* {showPassword ? 'Hide' : 'Show'}   */}
+        {showPassword ? <VisibilityOffIcon  style={{fontSize:'20px',padding:'0px'}}/> : <RemoveRedEyeIcon style={{fontSize:'20px',padding:'0px'}}/>}
+
+        
+      </p>
                 </span>
               </div>
             </div>

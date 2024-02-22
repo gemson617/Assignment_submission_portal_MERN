@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Header from "../student/Header";
 import axios from "axios";
 import { Link } from 'react-router-dom';
-
+import EditIcon from '@mui/icons-material/Edit';
 function ViewAssignments() {
 
   const [assignments, setAssignments] = useState([]);
@@ -117,7 +117,9 @@ function ViewAssignments() {
                   <td class="py-2 px-4 border-b">{assignment.section}</td>
                   <td class="py-2 px-4 border-b">{formattedDueDate}</td>
                   <td class="py-2 px-4 border-b">
-                    <Link to={`editAssignment/${assignment._id}`}>Edit</Link>
+                    <Link to={`editAssignment/${assignment._id}`}>
+                    <EditIcon  className='text-green-500' style={{fontSize:'22px',padding:'0px'}}/>
+                    </Link>
                   </td>
                 </tr>
               );

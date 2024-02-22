@@ -8,25 +8,54 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 require('dotenv').config()
+const {protect} = require('../middleware/AuthMiddleware')
 
 
+
+router.get('/getStudent',protect, async(req, res) => {
+
+  // const studentId = req.params.id;
+
+  const student = req.student;
+  const studentId = student._id;
+
+  try {
+        res.send({student:student});
+  } catch (error) {
+
+        console.error('Error fetching PDF:', error);
+        res.status(500).send('can\'t get assignments..sorry Admin!');
+
+  }
+
+});
 
 
 
 router.post('/updateStudent', asyncHandler(async(req, res) => {
-    const {email, password} = req.body;
+    const {first_name, last_name, email, password} = req.body;
+    // console.log('password : '+password);
   
     try {
 
         const studentExists = await studentModel.findOne({email:email});
 
         if(studentExists){
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password,salt);
-            console.log(hashedPassword);
 
+          let newPassword = '';
+
+          if(password !== ''){
+            const salt = await bcrypt.genSalt(10);
+            newPassword = await bcrypt.hash(password,salt);
+          }else{
+            newPassword = studentExists.password;
+          }
+
+
+            studentExists.first_name = first_name;
+            studentExists.last_name = last_name;
             studentExists.email = email;
-            studentExists.password = hashedPassword;
+            studentExists.password = newPassword;
 
             // Save the updated student
             await studentExists.save();

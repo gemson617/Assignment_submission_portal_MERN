@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { viewAssignmentsApi } from './ApiUtils';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
+import {handleApiError} from './ApiUtils';
 
 
 
@@ -121,12 +122,21 @@ function ViewAssignments() {
     formData.append('file', file);
     formData.append('comments', comments);
 
+    const token = localStorage.getItem('token'); // Assuming token is stored in local storage
+
     try {
       const response = await axios.post('http://localhost:5000/student/submitAssignment', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
         },
       });
+
+    //   , {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`
+    //     }
+    // }
 
       if(response.data.success){
         handleClose()
@@ -135,7 +145,7 @@ function ViewAssignments() {
         window.location.reload()
       }
     } catch (error) {
-      console.error('Error uploading file:', error);
+      handleApiError(error, navigate, dispatch);
     }  }
     
   return (

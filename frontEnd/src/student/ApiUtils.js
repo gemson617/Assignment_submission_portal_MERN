@@ -24,7 +24,7 @@ export const handleApiError = async (error, navigate, dispatch) => {
 
 
 //Student Home get assignments api
-export const getAssignmentsApi = async (setAssignments, navigate, dispatch) => {
+export const getAssignmentsApi = async (setAssignments,setStudent, navigate, dispatch) => {
 
     const token = localStorage.getItem('token'); // Assuming token is stored in local storage
 
@@ -36,13 +36,12 @@ export const getAssignmentsApi = async (setAssignments, navigate, dispatch) => {
             }
         });
         const data = response.data.data
+        const student = response.data.student
         // setAssignments();
         setAssignments(data);
+        setStudent(student)
 
-        if (response.data.success) {
-            alert('Assignment Retrieved Succesfully!')
-            window.location.reload()
-        }
+
     } catch (error) {
         handleApiError(error, navigate, dispatch);
     }
@@ -77,9 +76,16 @@ export const viewAssignmentsApi = async (setAssignments, navigate, dispatch) => 
 
 
 //get submitted assignments
-export const getSubmittedAssignmentsApi = async (id, setAssignments, dispatch, navigate) => {
+export const getSubmittedAssignmentsApi = async (setAssignments, dispatch, navigate) => {
+
+    const token = localStorage.getItem('token'); // Assuming token is stored in local storage
+
     try {
-        const response = await axios.get(`http://localhost:5000/student/getSubmitted/${id}`);
+        const response = await axios.get(`http://localhost:5000/student/getSubmitted`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         const data = response.data.data;
         setAssignments(data);
         if (response.data.success) {

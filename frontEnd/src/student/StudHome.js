@@ -13,21 +13,23 @@ import {setTokenAlert, mismatchAlert } from './states/ErrorSlice'
 function StudHome() {
 
   const [assignments, setAssignments] = useState([]);
+  const [student, setStudent] = useState([]);
 
   const navigate = useNavigate();
   
   const dispatch = useDispatch();
   const tokenAlert = useSelector((state) => state.ErrorSlice.tokenAlert)
 
-  const getAssignments = async (dispatch) => {
+  const getAssignments = async (setAssignments,setStudent,navigate,dispatch) => {
     
-    getAssignmentsApi(setAssignments, navigate, dispatch);
+    getAssignmentsApi(setAssignments,setStudent, navigate, dispatch);
+
 
   };
   
   
     useEffect(() => {
-        getAssignments(dispatch);
+        getAssignments(setAssignments,setStudent,navigate,dispatch);
     }, []);
 
     // const handleIncrement = () =>{
@@ -46,7 +48,7 @@ function StudHome() {
     alt=""
     className="object-cover w-20 mx-auto rounded-full justify-self-center aspect-square"
   />
-    <h1 class="text-3xl font-bold text-white mb-10">Welcome, GEMSON!</h1>
+    <h1 class="text-3xl font-bold text-white mb-10">Welcome, {student.name  }!</h1>
 
       <h1
         className="text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl"

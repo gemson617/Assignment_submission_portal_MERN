@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
     dNo         : String,
-    name        : String,
+    first_name  : String,
+    last_name   : String,
     classes     : String,
     section     : String,
     email       : String,

@@ -27,7 +27,7 @@ const upload = multer({ storage: storage });
 
 
 //get all Friendss
-router.post('/submitAssignment', upload.single('file'), async(req, res) => {
+router.post('/submitAssignment',protect, upload.single('file'), async(req, res) => {
 
             const fileData = req.file.filename;
 
@@ -138,7 +138,7 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
           assignment = await AssignmentModel.find({});
        
-        res.send({data:filteredAssignments});
+        res.send({data:filteredAssignments, student:student});
       } catch (error) {
         console.error('Error fetching PDF:', error);
         res.status(500).send('can\'t get assignments..sorry Admin!');
@@ -148,9 +148,12 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
 
 
-    router.get('/getSubmitted/:id', async(req, res) => {
+    router.get('/getSubmitted',protect, async(req, res) => {
 
-      const studentId = req.params.id;
+      // const studentId = req.params.id;
+
+      const student = req.student;
+      const studentId = student._id;
 
       try {
 
