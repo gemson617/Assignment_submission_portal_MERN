@@ -221,7 +221,7 @@ function ViewAssignments() {
 
 
 {/* main div for assignment cards */}
-<div className='lg:h-screen bg-slate-950'>
+<div className='h-screen bg-slate-950'>
 
           <h1 className="pt-10 mx-20 text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
                   Assignments For You.
@@ -240,7 +240,7 @@ function ViewAssignments() {
                       const today = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');                     
 
                       return(
-                              <article key={index} onClick={()=> getSpecificAssignment(assignment._id)} class="p-0.5 m-1  overflow-hidden transition duration-300 transform bg-indigo-400 cursor-pointer group rounded-xl hover:bg-indigo-500 hover:scale-105 hover:shadow-lg"
+                              <article key={index} onClick={()=> getSpecificAssignment(assignment._id)} class="p-0.5 m-1  overflow-hidden transition duration-300 transform bg-purple-400 cursor-pointer group rounded-xl hover:bg-purple-500 hover:scale-105 hover:shadow-lg"
                                 title="click to submit">
                                   <div class="rounded-[10px] p-4 sm:p-6">
 

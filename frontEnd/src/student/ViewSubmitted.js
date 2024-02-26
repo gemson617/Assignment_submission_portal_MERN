@@ -162,9 +162,9 @@ function ViewSubmitted() {
 
 
   return (
-    <div className='h-full'>
+    <div className='h-screen'>
         <Header/>
-          <section className="py-10 text-white bg-slate-950 md:h-full ">
+          <section className="h-full py-10 text-white bg-slate-950 ">
   <div className="px-4 py-4">
 
     {assignments.length !== 0 ? (

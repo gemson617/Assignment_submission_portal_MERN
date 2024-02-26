@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
 
   tokenAlert     :  false, // token not found or 401 alert
-  mismatchAlert  :  false, // email / password mismatch
+  logoutAlert  :  false, // email / password mismatch
 
 }
 
@@ -17,9 +17,11 @@ export const errorSlice = createSlice({
         state.tokenAlert = action.payload
         },
 
-    setMismatchAlert: (state) =>{
-        state.mismatchAlert = !state.mismatchAlert
+    setLogoutAlert: (state) =>{
+        state.logoutAlert = !state.logoutAlert
         },
+
+
 
   },
 
@@ -27,6 +29,6 @@ export const errorSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setTokenAlert, setMismatchAlert} =errorSlice.actions
+export const { setTokenAlert, setLogoutAlert} =errorSlice.actions
 
 export default errorSlice.reducer

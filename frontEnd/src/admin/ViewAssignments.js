@@ -45,9 +45,10 @@ function ViewAssignments() {
 
 
   return (
+    <body className='h-full bg-slate-950'>
     <div>
         <Header/>
-          <section className="py-10 text-white bg-slate-950 md:h-full ">
+          <section className="h-full py-10 text-white ">
             <div className='flex justify-end mx-4'>
                 <div class="mb-4 md:mb-0 w-full md:w-44 mr-2">
                       <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
@@ -61,8 +62,6 @@ function ViewAssignments() {
                           <option value="11">11th</option>
                           <option value="12">12th</option>
                         </select>
-
-                        
                     </div>
                     <div class=" w-full md:w-44 ">
                       <label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
@@ -75,7 +74,7 @@ function ViewAssignments() {
                           <option value="c">C</option>
                           <option value="d">D</option>
                           <option value="e">E</option>
-                        </select>
+                      </select>
                     </div>
                     <div>
                     <button onClick={handleFilter}
@@ -132,6 +131,7 @@ function ViewAssignments() {
   </div>
 </section>
     </div>
+    </body>
   )
 }
 

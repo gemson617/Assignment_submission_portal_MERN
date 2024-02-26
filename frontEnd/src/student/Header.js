@@ -3,6 +3,8 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { useNavigate } from 'react-router-dom';
+import {  useDispatch } from 'react-redux'
+import {  setLogoutAlert } from './states/ErrorSlice';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -11,12 +13,24 @@ function classNames(...classes) {
 function Header() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleLogout = () =>{
+  const handleLogout = async() =>{
     localStorage.removeItem('token');
-    alert('Logged Out');
+
     navigate('/');
+
+
+    await dispatch(setLogoutAlert())
+
+    const timeoutId = setTimeout(() => {
+        dispatch(setLogoutAlert())
+      }, 3000);
+        return () => clearTimeout(timeoutId);
   }
+
+
+  
   return (
     <div>
         

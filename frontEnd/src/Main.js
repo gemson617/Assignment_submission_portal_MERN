@@ -24,7 +24,7 @@ import { Routes, Route, Switch, Link } from 'react-router-dom'
 export default function Main() {
   return (
     <div>
-     {/* <Header /> */} 
+     <Header /> 
 
        <Routes>
                 <Route path='/' element={<Login/>}/>

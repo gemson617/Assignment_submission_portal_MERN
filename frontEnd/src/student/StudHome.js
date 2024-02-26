@@ -38,10 +38,10 @@ function StudHome() {
 
   return (
     <div>
-      <Header/>
+      {/* <Header/> */}
       
       <section className="text-white bg-slate-950">
-  <div className="max-w-screen-xl px-4 py-12 mx-auto lg:flex lg:h-screen ">
+  <div className="h-screen max-w-screen-xl px-4 py-12 mx-auto lg:flex ">
     <div className="max-w-3xl mx-auto text-center ">
     <img
     src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -74,7 +74,7 @@ function StudHome() {
         </a>
           </Badge>
 
-          <a className="block w-full px-12 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+          <a className="block px-8 py-3 text-sm font-medium text-white border border-blue-600 rounded hover:bg-blue-600 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
           href="/ViewSubmitted"> Submitted Assignments
         </a>
           
