@@ -34,7 +34,7 @@ function ViewSubmitted() {
 
 
       const fetchPdfData = async (assignmentId) => {
-        alert(assignmentId)
+        // alert(assignmentId)
         try {
           const response = await axios.get(`http://localhost:5000/student/getAssignmentPDF/${assignmentId}`);
 
@@ -57,7 +57,7 @@ function ViewSubmitted() {
       useEffect(() => {
 
         if (pdfData !== '') {
-          alert(pdfData);
+          // alert(pdfData);
           handleDownload(pdfData);
         }
 
@@ -163,8 +163,12 @@ function ViewSubmitted() {
 
   return (
     <div className='h-screen'>
-        <Header/>
           <section className="h-full py-10 text-white bg-slate-950 ">
+
+          <h1 class="py-2 px-4 text-2xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-3xl duration-200">
+         Submitted Assignments
+    </h1>
+    
   <div className="px-4 py-4">
 
     {assignments.length !== 0 ? (

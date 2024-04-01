@@ -11,6 +11,21 @@ require('dotenv').config()
 const {protect} = require('../middleware/AuthMiddleware')
 
 
+const storage = multer.diskStorage({
+  destination:function(req,file,cb){
+    cb(null,"./files");
+  },
+  filename:function(req,file,cb){
+  // console.log(file)
+
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
+  },
+})
+
+const upload = multer({ storage: storage });
+
+
 
 router.get('/getStudent',protect, async(req, res) => {
 
@@ -32,9 +47,12 @@ router.get('/getStudent',protect, async(req, res) => {
 
 
 
-router.post('/updateStudent', asyncHandler(async(req, res) => {
+router.post('/updateStudent' , asyncHandler(async(req, res) => {
+
+    // const fileData = req.file.filename;
+
     const {first_name, last_name, email, password} = req.body;
-    // console.log('password : '+password);
+    // console.log('fileData : '+fileData);
   
     try {
 
@@ -50,8 +68,6 @@ router.post('/updateStudent', asyncHandler(async(req, res) => {
           }else{
             newPassword = studentExists.password;
           }
-
-
             studentExists.first_name = first_name;
             studentExists.last_name = last_name;
             studentExists.email = email;

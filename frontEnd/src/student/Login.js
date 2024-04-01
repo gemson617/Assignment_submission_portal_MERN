@@ -63,8 +63,8 @@ function Login() {
 
 
   return (
-    <div className=''>
-      <div class="mx-auto py-auto max-w-lg  bg-black rounded-xl p-3 mt-3">
+    <div className='flex items-center h-screen'>
+      <div class="w-full mx-auto md:w-1/2 py-auto max-w-lg  bg-black rounded-xl p-3 mt-3">
 
         {LogoutAlert && (
           <div id='alertDiv' class="bg-green-100 d-none border-t-4 mx-auto border-green-500 rounded-b px-4 py-2 mb-5 shadow-md" role="alert">

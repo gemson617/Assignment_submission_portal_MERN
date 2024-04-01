@@ -9,6 +9,7 @@ import StudHome from "./student/StudHome";
 import Header from "./student/Header";
 import ViewSubmitted from "./student/ViewSubmitted";
 // import EditProfile from "./student/EditProfile";
+import { useLocation } from 'react-router-dom';
 
 
 //admin
@@ -22,9 +23,16 @@ import { Routes, Route, Switch, Link } from 'react-router-dom'
 
 // Create a new component that encapsulates all the components you want to render together
 export default function Main() {
+
+  const location = useLocation();
+
+  const isHomePage = location.pathname === '/';
+
   return (
     <div>
-     <Header /> 
+
+    {!isHomePage && <Header />}
+
 
        <Routes>
                 <Route path='/' element={<Login/>}/>

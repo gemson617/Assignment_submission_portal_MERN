@@ -12,10 +12,31 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+
+
+
+
+
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
 
 function StudRegister() {
     const [studClass, setClass] = useState('');
     const [studSection, setSection] = useState('');
+    const [file, setFile] = useState(null);
 
     const [student, setStudent] = useState('');
 
@@ -31,6 +52,11 @@ function StudRegister() {
 
     const handleChangeSection = (event) => {
         setSection(event.target.value);
+    };
+
+    
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
     };
 
     const {
@@ -64,6 +90,10 @@ function StudRegister() {
         { class: 'D' },
     ]
 
+
+    
+    
+    
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -111,7 +141,10 @@ function StudRegister() {
 
 
     const onSubmit = async (data) => {
-        console.log(data)
+
+        // data.file = file;
+        student.file = file
+        console.log(student)
         try {
             const response = await axios.post('http://localhost:5000/login/updateStudent', data, {
             });
@@ -157,7 +190,7 @@ function StudRegister() {
                                                 type="text" value={student.first_name} onChange={handleInputChange}
                                                 placeholder="First Name"
                                             />
-                                            {errors?.first_name && <b role="alert" className="text-sm italic text-red-700">{errors?.first_name.message}</b>}
+                                            {errors?.first_name && <b role="alert" className="text-sm italic text-slate-900">{errors?.first_name.message}</b>}
                                         </div>
                                         <div class="w-full" >
                                             <label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
@@ -172,24 +205,40 @@ function StudRegister() {
                                         </div>
                                     </div>
 
-                                    <div class="mb-4 md:mb-0 w-full md:mr-2">
+                                    <div class="mb-4 w-full mt-2">
+                                        {/* <div class="w-full md:mr-2" >
+                                        
                                         <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
-                                            Email
-                                        </label>
-                                        <input {...register("email", { required: 'Email is Required' })}
-                                            class="w-full px-3 py-3 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                            id="email" value={student.email} onChange={handleInputChange}
-                                            type="email"
-                                            placeholder="Email"
-                                        />
-                                        {errors?.email && <b role="alert" className="text-sm italic text-red-600">{errors?.email.message}</b>}
+                                        Profile Pic <span className="text-red-700"> *</span>
+                                            </label>
+                                            <div class="relative bg-white p-0.5">
+                                                <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} className='w-full'>
+                                                    {file ? file.name : 'Upload Image'}
+                                                    <VisuallyHiddenInput type="file" name='file' {...register("file", { required: 'Attachment is Required' })} onChange={handleFileChange} />
+                                                </Button>
+                                            </div>
+                                            {errors?.file && <b role="alert" className="text-sm italic text-slate-900">{errors?.file.message}</b>}
+
+                                        </div> */}
+                                        <div class="mb-4 md:mb-0 w-full ">
+                                            <label class="block text-xl mb-2 text-gray-100 dark:text-white" for="firstName">
+                                                Email <span className="text-red-700"> *</span>
+                                            </label>
+                                            <input {...register("email", { required: 'Email is Required' })}
+                                                class="w-full px-3 py-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                                id="email" value={student.email} onChange={handleInputChange}
+                                                type="email"
+                                                placeholder="Email"
+                                            />
+                                            {errors?.email && <b role="alert" className="text-sm italic text-slate-900">{errors?.email.message}</b>}
+                                        </div>
                                     </div>
 
                                     <div class="mb-4 md:flex md:justify-between mt-2">
 
                                         <div class="w-full md:mr-2">
                                             <label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
-                                                Password  <span className="text-red-700"> *</span>
+                                                Password  
                                             </label>
                                             <div className='relative'>
                                                 <input {...register("password")}
@@ -198,7 +247,7 @@ function StudRegister() {
                                                     type={showPassword ? 'text' : 'password'}
                                                     placeholder="**********"
                                                 />
-                                                {errors?.password && <b role="alert" className="text-sm italic text-red-600">{errors?.password.message}</b>}
+                                                {errors?.password && <b role="alert" className="text-sm italic text-slate-900">{errors?.password.message}</b>}
                                                 <span class="absolute inset-y-0 end-0 grid place-content-center px-4 mb-3">
                                                     <p className='cursor-pointer hover:text-green-600' onClick={togglePasswordVisibility}>
                                                         {showPassword ? <VisibilityOffIcon style={{ fontSize: '17px', padding: '0px' }} /> : <RemoveRedEyeIcon style={{ fontSize: '17px', padding: '0px' }} />}
@@ -206,9 +255,9 @@ function StudRegister() {
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="mb-4 md:mr-2 md:mb-0 w-full">
+                                        <div class="mb-4 md:mb-0 w-full">
                                             <label class="block mb-2 text-lg text-gray-100 dark:text-white" for="password">
-                                                confirm Password  <span className="text-red-700"> *</span>
+                                                confirm Password  
                                             </label>
                                             <div className='relative'>
                                                 <input
@@ -225,8 +274,9 @@ function StudRegister() {
                                                     </p>
                                                 </span>
                                             </div>
+                                            {errors?.c_password && <b role="alert" className="text-sm italic text-slate-900">{errors?.c_password.message}</b>}
 
-                                            {errors?.c_password && <b role="alert" className="text-sm italic text-red-600">{errors?.c_password.message}</b>}
+
                                         </div>
 
                                     </div>

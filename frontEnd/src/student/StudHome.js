@@ -38,7 +38,6 @@ function StudHome() {
 
   return (
     <div>
-      {/* <Header/> */}
       
       <section className="text-white bg-slate-950">
   <div className="h-screen max-w-screen-xl px-4 py-12 mx-auto lg:flex ">

@@ -47,7 +47,7 @@ function ViewAssignments() {
   return (
     <body className='h-full bg-slate-950'>
     <div>
-        <Header/>
+        {/* <Header/> */}
           <section className="h-full py-10 text-white ">
             <div className='flex justify-end mx-4'>
                 <div class="mb-4 md:mb-0 w-full md:w-44 mr-2">

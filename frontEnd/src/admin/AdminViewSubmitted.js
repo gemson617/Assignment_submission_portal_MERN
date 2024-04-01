@@ -65,6 +65,7 @@ function AdminViewSubmitted() {
               try {
                 const response = await axios.get(`http://localhost:5000/admin/getSubmittedById/${completedId}`);
                 const data =  response.data.data
+                
                     setEvaluate();
                     setEvaluate(data);
                     setCompletedId(data._id)
@@ -75,7 +76,7 @@ function AdminViewSubmitted() {
 
                     setAssignmentName(data.assignmentDetails.name)
 
-                    // console.log(data)
+                    console.log(data)
 
                     setOpen(true)
                   
@@ -98,8 +99,6 @@ function AdminViewSubmitted() {
           if (responseData && responseData.attachment) {
             const data = responseData.attachment;
             setPdfData(data);
-            // alert(pdfData)
-            // handleDownload(data);
           } else {
             console.error('Error fetching PDF: Response data or attachment is null');
           }
@@ -108,8 +107,6 @@ function AdminViewSubmitted() {
           console.error('Error fetching PDF:', error);
         }
       };
-
-
 
       const handleEvaluation = async (completedId) => {
       // alert(completedId)
@@ -243,7 +240,7 @@ function AdminViewSubmitted() {
 
 
   return (
-    <div className='h-full'>
+    <div className='h-screen'>
 
 <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         
@@ -304,8 +301,8 @@ function AdminViewSubmitted() {
       </Modal>
 
 
-        <Header/>
-          <section className="py-10 text-white bg-slate-950 md:h-full ">
+        {/* <Header/> */}
+          <section className="py-10 text-white bg-slate-950 md:h-screen ">
             {/* <div className='flex justify-end mx-4'>
                 <div class="mb-4 md:mb-0 w-full md:w-44 mr-2">
                       <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
@@ -353,6 +350,8 @@ function AdminViewSubmitted() {
                 <th class="py-2 px-4 border-b">S.No</th>
                 <th class="py-2 px-4  border-b">Assignment Name</th>
                 <th class="py-2 px-4  border-b">Description</th>
+                <th class="py-2 px-4  border-b">Student D.No</th>
+                <th class="py-2 px-4  border-b">Class</th>
                 <th class="py-2 px-4  border-b">Section</th>
                 <th class="py-2 px-4  border-b">Attachment</th>
                 <th class="py-2 px-4  border-b">Evaluate</th>
@@ -367,7 +366,9 @@ function AdminViewSubmitted() {
                     <td class="py-2 px-4 border-b ">{index + 1}</td>
                     <td class="py-2 px-4 border-b">{assignment.assignmentDetails ? assignment.assignmentDetails.name : '-'}</td>
                     <td class="py-2 px-4 border-b">{assignment.assignmentDetails ? assignment.assignmentDetails.description : '-'}</td>
-                    <td class="py-2 px-4 border-b">{assignment.marks ? assignment.marks : 'Not Evaluated!'}</td>
+                    <td class="py-2 px-4 border-b">{assignment.studentDetails.dNo}</td>
+                    <td class="py-2 px-4 border-b">{assignment.studentDetails.classes}</td>
+                    <td class="py-2 px-4 border-b">{assignment.studentDetails.section}</td>
                     <td class="py-2 px-4 border-b">
                           <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
                           <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />

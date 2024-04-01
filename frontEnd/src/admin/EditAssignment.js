@@ -75,8 +75,8 @@ function EditAssignment() {
 
 
 	const onSubmit = async(data) => {
+		// console.log(data)
 		try {
-			
 			const response = await axios.put('http://localhost:5000/admin/editAssignment', data, {
 			  headers: {
 				'Content-Type': 'multipart/form-data',
@@ -142,7 +142,7 @@ function EditAssignment() {
 								<input  {...register("name", { required: 'Assignment Name is Required' })}
 									type="text" value={assignmentName} onChange={handleAssignmentName}
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm"/>
-									{errors?.name && <b role="alert" className="text-red-700 italic text-sm">{errors?.name.message}</b> }
+									{errors?.name && <b role="alert" className="text-sm italic text-red-700">{errors?.name.message}</b> }
 
 							</div>
 							<div class="mt-2 w-full" >
@@ -167,7 +167,7 @@ function EditAssignment() {
 										<option value="11" selected={classValue === '11'}>11th</option>
 										<option value="12" selected={classValue === '12'}>12th</option>
 									</select>
-									{errors?.classes && <b role="alert" className="text-red-600 italic text-sm">{errors?.classes.message}</b> }
+									{errors?.classes && <b role="alert" className="text-sm italic text-red-600">{errors?.classes.message}</b> }
 									
 							</div>
 							<div class=" w-full">
@@ -185,7 +185,7 @@ function EditAssignment() {
 										<option value="d"   selected={section === 'd'}>D</option>
 										<option value="e"   selected={section === 'e'}>E</option>
 									</select>
-									{errors?.section && <b role="alert" className="text-red-600 italic text-sm">{errors?.section.message}</b> }
+									{errors?.section && <b role="alert" className="text-sm italic text-red-600">{errors?.section.message}</b> }
 							</div>
 						</div>
 		
@@ -198,7 +198,7 @@ function EditAssignment() {
 									onChange={handleDueDate} value={dueDate}
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm"
 								/>
-								{errors?.dueDate && <b role="alert" className="text-red-600 italic text-sm">{errors?.dueDate.message}</b> }
+								{errors?.dueDate && <b role="alert" className="text-sm italic text-red-600">{errors?.dueDate.message}</b> }
 							</div>
 							<div class="md:ml-2 w-full">
 								<label class="block mb-2 text-lg text-gray-100 dark:text-white" for="c_password">

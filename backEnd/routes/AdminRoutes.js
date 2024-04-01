@@ -121,6 +121,8 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
   //edit Assignments
   router.put('/editAssignment', upload.none(), async (req, res) => {
     const { id, name, description, classes, section, dueDate, notes } = req.body;
+
+    // console.log(description)
   
     try {
       const updatedAssignment = await AssignmentModel.findById(id);
@@ -152,6 +154,8 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
           res.send({data:completedAssignments});
 
+          // console.log(completedAssignments)
+
         } catch (error) {
 
           console.error('Error fetching PDF:', error);
@@ -168,6 +172,7 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
           const completedAssignment = await CompletedAssignmentModel.findById(completedId);
 
           res.send({data:completedAssignment});
+
 
         } catch (error) {
 
