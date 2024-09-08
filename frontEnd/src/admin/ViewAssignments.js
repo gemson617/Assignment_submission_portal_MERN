@@ -48,43 +48,53 @@ function ViewAssignments() {
     <body className='h-full bg-slate-950'>
     <div>
         {/* <Header/> */}
-          <section className="h-full py-10 text-white ">
-            <div className='flex justify-end mx-4'>
-                <div class="mb-4 md:mb-0 w-full md:w-44 mr-2">
-                      <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
-                                          Class
-                                      </label>			
-                        <select id="countries" onChange={handleClass} class="bg-gray-50 border border-purple-900 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1  pl-3 mr-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          <option value="all" selected>All</option>
-                          <option value="8"> 8th</option>
-                          <option value="9"> 9th</option>
-                          <option value="10">10th</option>
-                          <option value="11">11th</option>
-                          <option value="12">12th</option>
-                        </select>
-                    </div>
-                    <div class=" w-full md:w-44 ">
-                      <label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
-                      Section
-                                      </label>
-                      <select id="countries" onChange={handleSection} class="bg-gray-50 border font-sans border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1  pl-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          <option value="all" selected>All</option>
-                          <option value="a">A</option>
-                          <option value="b">B</option>
-                          <option value="c">C</option>
-                          <option value="d">D</option>
-                          <option value="e">E</option>
-                      </select>
-                    </div>
-                    <div>
-                    <button onClick={handleFilter}
-                                class="w-full mt-9 ml-2 px-4 py-1 font-semibold text-slate-900 bg-slate-200 rounded-full hover:bg-green-500 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
-                                type="button">
-                                Filter
-                            </button>
-                    </div>
+          <section className="h-full py-10 mx-10 text-white">
+            <div className='flex justify-between mx-6'>
+
+                <h1 class="text-2xl mb-4 font-extrabold text-transparent text-white bg-clip-text sm:text-3xl ">
+                    All Assignments
+                </h1>
+        
+                <div className='flex '>
+                    <div class="mb-4 md:mb-0 w-full md:w-44 mr-2 h-full">
+                          <label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
+                                              Class
+                                          </label>			
+                            <select id="countries" onChange={handleClass} class="bg-gray-50 border border-purple-900 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1  pl-3 mr-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                              <option value="all" selected>All</option>
+                              <option value="8"> 8th</option>
+                              <option value="9"> 9th</option>
+                              <option value="10">10th</option>
+                              <option value="11">11th</option>
+                              <option value="12">12th</option>
+                            </select>
+                        </div>
+                        <div class=" w-full md:w-44 ">
+                          <label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
+                          Section
+                                          </label>
+                          <select id="countries" onChange={handleSection} class="bg-gray-50 border font-sans border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-1  pl-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                              <option value="all" selected>All</option>
+                              <option value="a">A</option>
+                              <option value="b">B</option>
+                              <option value="c">C</option>
+                              <option value="d">D</option>
+                              <option value="e">E</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                        <button onClick={handleFilter}
+                                    class="w-full mt-9 ml-2 px-4 py-1 font-semibold text-slate-900 bg-slate-200 rounded-full hover:bg-green-500 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
+                                    type="button">
+                                    Filter
+                                </button>
+                        </div>
+
+                        </div>
+                        
               </div>
-  <div className="px-4 py-4">
+  <div className="h-full px-4 py-4">
    
       <table class=" rounded-lg min-w-full border border-gray-300">
           <thead className='bg-indigo-500 '>

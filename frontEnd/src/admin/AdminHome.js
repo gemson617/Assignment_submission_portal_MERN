@@ -21,10 +21,10 @@ function AdminHome() {
     alt=""
     className="object-cover w-20 mx-auto rounded-full justify-self-center aspect-square"
   />
-    <h1 class="text-3xl font-bold text-white mb-10">Welcome, GEMSON!</h1>
+    {/* <h1 class="text-3xl font-bold text-white mb-10">Welcome, GEMSON!</h1> */}
 
       <h1
-        className="text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl"
+        className="my-12 text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl"
       >
         Welcome Admin!
 

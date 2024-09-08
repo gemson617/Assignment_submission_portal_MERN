@@ -340,8 +340,12 @@ function AdminViewSubmitted() {
                             </button>
                     </div>
               </div> */}
-  <div className="px-4 py-4">
+  <div className="px-4 py-4 mx-10">
 
+  <h1 class="text-2xl mb-4 font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-3xl duration-200">
+         Submitted Assignments
+    </h1>
+    
     {assignments.length !== 0 ? (
     
         <table class="min-w-full border border-gray-300 rounded-xl">
@@ -350,7 +354,7 @@ function AdminViewSubmitted() {
                 <th class="py-2 px-4 border-b">S.No</th>
                 <th class="py-2 px-4  border-b">Assignment Name</th>
                 <th class="py-2 px-4  border-b">Description</th>
-                <th class="py-2 px-4  border-b">Student D.No</th>
+                <th class="py-2 px-4  border-b">Submitted By</th>
                 <th class="py-2 px-4  border-b">Class</th>
                 <th class="py-2 px-4  border-b">Section</th>
                 <th class="py-2 px-4  border-b">Attachment</th>

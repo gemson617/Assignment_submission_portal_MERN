@@ -171,6 +171,7 @@ router.post('/submitAssignment', upload.single('file'), async(req, res) => {
 
           const completedAssignment = await CompletedAssignmentModel.findById(completedId);
 
+          console.log(completedAssignment)
           res.send({data:completedAssignment});
 
 

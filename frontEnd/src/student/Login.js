@@ -91,7 +91,7 @@ function Login() {
         }
 
 
-        <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl ">LogIn</h1>
+        <h1 class="text-center text-2xl font-bold text-white sm:text-3xl ">LogIn</h1>
 
         <form action="" class="mb-0 mt-2 space-y-4 rounded-lg  shadow-lg sm:p-6 lg:p-8" onSubmit={handleSubmit(onSubmit)}>
 

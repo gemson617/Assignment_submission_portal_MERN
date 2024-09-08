@@ -162,15 +162,15 @@ function ViewSubmitted() {
 
 
   return (
-    <div className='h-screen'>
+    <div className='h-screen '>
           <section className="h-full py-10 text-white bg-slate-950 ">
+    
+  <div className="px-4 py-4 mx-10">
 
-          <h1 class="py-2 px-4 text-2xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-3xl duration-200">
+  <h1 class="text-2xl mb-4 font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-3xl duration-200">
          Submitted Assignments
     </h1>
     
-  <div className="px-4 py-4">
-
     {assignments.length !== 0 ? (
     
         <table class="border border-gray-300 rounded-xl  md:w-full ">

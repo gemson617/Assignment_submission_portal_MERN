@@ -217,12 +217,13 @@ function ViewAssignments() {
       {/* main div for assignment cards */}
       <div className='h-screen bg-slate-950'>
 
-        <h1 className="py-10 mx-20 text-3xl font-extrabold text-transparent bg-white bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl">
+        <h1 className="py-10 mx-20 text-3xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 bg-clip-text sm:text-4xl">
           Assignments For You.
         </h1>
 
+       
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mx-10 md:mx-20 my-14">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mx-10 md:mx-20 ">
 
           {assignments ? (
 

@@ -40,7 +40,7 @@ function Header() {
 <header class="header sticky top-0 bg-slate-950 text-white shadow-md flex items-center justify-between px-8">
     {/* <!-- logo --> */}
     
-    <h1 class="py-2 text-2xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl duration-200 cursor-pointer hover:text-green-500">
+    <h1 class="py-5 text-2xl font-extrabold text-transparent bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text sm:text-4xl duration-200 cursor-pointer hover:text-green-500">
         Assignment Submission Portal
     </h1>
 

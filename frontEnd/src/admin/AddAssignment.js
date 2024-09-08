@@ -127,7 +127,7 @@ function AddAssignment() {
 								<input
 									type="text" {...register("name", { required: 'Assignment Name is Required' })}
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm"/>
-									 {errors?.name && <b role="alert" className="text-red-700 italic text-sm">{errors?.name.message}</b> }
+									 {errors?.name && <b role="alert" className="text-sm italic text-red-700">{errors?.name.message}</b> }
 							</div>
 							<div class="mt-2 w-full" >
 								<label class="block mb-2 text-lg text-gray-100 dark:text-white" for="lastName">
@@ -140,7 +140,7 @@ function AddAssignment() {
 							<div class="mb-4 md:flex md:justify-between mt-2">
 							<div class="mb-4 md:mb-0 w-full md:mr-2">
 								<label class="block mb-2 text-xl  text-gray-100 dark:text-white" for="firstName">
-                                    Class
+                                    Class <span className="text-red-700"> *</span>
                                 </label>			
 									<select id="countries"  {...register("classes", { required: 'Class is Required' })} class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 										<option selected value=''>Choose a Class</option>
@@ -150,7 +150,7 @@ function AddAssignment() {
 										<option value="11">11th</option>
 										<option value="12">12th</option>
 									</select>
-									{errors?.classes && <b role="alert" className="text-red-600 italic text-sm">{errors?.classes.message}</b> }
+									{errors?.classes && <b role="alert" className="text-sm italic text-red-600">{errors?.classes.message}</b> }
 
 
 									
@@ -168,7 +168,7 @@ function AddAssignment() {
 										<option value="d">D</option>
 										<option value="e">E</option>
 									</select>
-									{errors?.section && <b role="alert" className="text-red-600 italic text-sm">{errors?.section.message}</b> }
+									{errors?.section && <b role="alert" className="text-sm italic text-red-600">{errors?.section.message}</b> }
 
 							</div>
 						</div>
@@ -180,7 +180,7 @@ function AddAssignment() {
                                 </label>
 								<input type="date"  {...register("dueDate", { required: 'Due Date is Required' })}
 									class="w-full rounded-md focus:shadow-3xl border-gray-200 p-2 px-2 pe-12 text-md shadow-sm"/>
-									{errors?.dueDate && <b role="alert" className="text-red-600 italic text-sm">{errors?.dueDate.message}</b> }
+									{errors?.dueDate && <b role="alert" className="text-sm italic text-red-600">{errors?.dueDate.message}</b> }
 							</div>
 							<div class="md:ml-2 w-full">
 								<label class="block mb-2 text-lg text-gray-100 dark:text-white" for="c_password">

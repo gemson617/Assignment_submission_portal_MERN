@@ -12,7 +12,7 @@ function AdminHeader() {
     <div>
         
         {/* <!-- component --> */}
-<header class="header sticky top-0 bg-slate-950 text-white shadow-md flex items-center justify-between px-10 py-02">
+<header class="header sticky top-0 bg-slate-950 text-white shadow-md flex items-center justify-between px-10 py-6">
     {/* <!-- logo --> */}
     <h1 class="w-3/12 flex justify-center">
         <a href="">
