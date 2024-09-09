@@ -192,7 +192,12 @@ function ViewSubmitted() {
                     <td class="py-2 px-4 border-b ">{index + 1}</td>
                     <td class="py-2 px-4 border-b">{assignment.assignmentDetails.name}</td>
                     <td class="py-2 px-4 border-b">{assignment.assignmentDetails.description}</td>
-                    <td class="py-2 px-4 border-b">{assignment.is_evaluated ? assignment.marks : 'Not Evaluated!'}</td>
+                    {/* <td class="py-2 px-4 border-b">{assignment.is_evaluated ? assignment.marks : 'Not Evaluated!'}</td> */}
+                    <td class="py-2 px-4 border-b">{assignment.is_evaluated ? (
+                        <span className='px-5 py-1 text-white bg-green-600 rounded-2xl'>{assignment.marks}</span>
+                    ) : (
+                      <span className='px-3 py-1 font-light text-white bg-red-600 rounded-2xl'>Not Evaluated</span>
+                    )}</td>
                     <td class="py-2 px-4 border-b">
                           <DownloadIcon className='hover:cursor-pointer hover:text-green-500'  onClick={() => fetchPdfData(assignment._id)} />
                           <RemoveRedEyeIcon className='hover:cursor-pointer hover:text-green-500' onClick={() => handleViewAttachment(assignment._id)} />

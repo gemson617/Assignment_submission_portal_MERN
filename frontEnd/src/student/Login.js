@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setTokenAlert, setLogoutAlert } from './states/ErrorSlice';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import sideImage from '../assets/bg2.jpg'; // Path to your local image
+
 
 
 function Login() {
@@ -30,6 +32,13 @@ function Login() {
   };
 
 
+  const divStyle = {
+ 
+    backgroundImage: `url(${sideImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  };
 
 
 
@@ -63,7 +72,7 @@ function Login() {
 
 
   return (
-    <div className='flex items-center h-screen'>
+    <div className='flex items-center h-screen' style={divStyle}>
       <div class="w-full mx-auto md:w-1/2 py-auto max-w-lg  bg-black rounded-xl p-3 mt-3">
 
         {LogoutAlert && (
